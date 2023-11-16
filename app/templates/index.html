@@ -10,8 +10,8 @@
 <body>
     <img class="always-center" src="{{ url_for('static', filename='logo.png') }}">
     <div class="buttons-container">
-        <button class="button button-f blue">Log in</button>
-        <button class="button button-f orange">Register</button>
+        <a href="{{ url_for('auth.login') }}" class="button button-f blue">Log in</a>
+        <a href="{{ url_for('auth.register') }}" class="button button-f orange">Register</a>
     </div>
 </body>
 </html>
