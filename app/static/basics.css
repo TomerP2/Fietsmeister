@@ -1,0 +1,64 @@
+/* Import Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans&family=Open+Sans:wght@500;600;700&display=swap');
+
+
+/* Define Colors */
+:root {
+    --main: #ffffff;
+    --accent: #1197CF;
+    --accent_light: #DEF4FF;
+    --main_contrast: #000000;
+    --good: #26B849;
+    --bad: #FF383B;
+    --blokkering: #FF6331;
+  }
+
+
+/* Define Fonts */
+.button-f
+{
+    color: var(--main);
+    font-family: Open Sans;
+    font-size: 22px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+    letter-spacing: -0.22px;
+    text-transform: uppercase;
+}
+
+.title-f
+{
+    color: var(--main_contrast);
+    font-family: Open Sans;
+    font-size: 22px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+}
+
+.text-f
+{
+    color: var(--main_contrast, #000);
+    font-family: Noto Sans;
+    font-size: 13px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    letter-spacing: 0.52px;
+    text-transform: uppercase;
+}
+
+
+/* Basics */
+body {
+    padding: 0;
+    margin: 0;
+    background-color: var(--main);
+    overflow: hidden;
+}
+
+html, body, #map {
+    height: 100%;
+    width: 100vw;
+}

@@ -1,0 +1,39 @@
+.always-center{
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    max-width: 70%; 
+    max-height: 70vh; 
+}
+
+.buttons-container{
+    position: fixed;
+    bottom: 3%;
+    right: 3vw;
+    left: 3vw;
+    width: auto; 
+    height: auto;
+    display: flex;
+    justify-content: space-between;
+}
+
+.button{
+    width: 45vw;
+    height: 6vh;
+    border: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 15px;
+    padding-left: 5vw;
+    padding-right: 5vw;
+}
+
+.blue{
+    background-color: var(--accent);
+}
+
+.orange{
+    background-color: var(--blokkering);
+}

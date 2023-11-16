@@ -5,11 +5,10 @@ from flask import (
 )
 from werkzeug.security import check_password_hash, generate_password_hash
 
-from fietsmeister.db import get_db
+from app.db import get_db
 
 
 bp = Blueprint('auth', __name__, url_prefix='/auth')
-
 
 @bp.before_app_request
 def load_logged_in_user():
@@ -41,7 +40,7 @@ def register():
                 db.execute(
                     "INSERT INTO user (username, password) VALUES (?, ?)",
                     (username, generate_password_hash(password)),
-                )
+                ) 
                 db.commit()
             except db.IntegrityError:
                 error = f"User {username} is already registered."

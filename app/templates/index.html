@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Document</title>
+    <link href="{{ url_for('static', filename='basics.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='home.css') }}" rel="stylesheet">
+</head>
+<body>
+    <img class="always-center" src="{{ url_for('static', filename='logo.png') }}">
+    <div class="buttons-container">
+        <button class="button button-f blue">Log in</button>
+        <button class="button button-f orange">Register</button>
+    </div>
+</body>
+</html>

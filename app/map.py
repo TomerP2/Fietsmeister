@@ -3,13 +3,13 @@ from flask import (
 )
 from werkzeug.exceptions import abort
 
-from fietsmeister.auth import login_required
-from fietsmeister.db import get_db
+from app.auth import login_required
+from app.db import get_db
 
 
 bp = Blueprint('map', __name__)
 
 
-@bp.route('/')
+@bp.route('/map')
 def index():
-    return render_template('map/index.html')
+    return render_template('map/map.html')
