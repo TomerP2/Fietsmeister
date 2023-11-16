@@ -1,15 +1,18 @@
-{% extends 'base.html' %}
-
-{% block header %}
-  <h1>{% block title %}Register{% endblock %}</h1>
-{% endblock %}
-
-{% block content %}
-  <form method="post">
-    <label for="username">Username</label>
-    <input name="username" id="username" required>
-    <label for="password">Password</label>
-    <input type="password" name="password" id="password" required>
-    <input type="submit" value="Register">
-  </form>
-{% endblock %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Document</title>
+    <link href="{{ url_for('static', filename='basics.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='home.css') }}" rel="stylesheet">
+</head>
+<body>
+    <img class="always-center" src="{{ url_for('static', filename='logo.png') }}">
+    <form method="post" class="buttons-container-vertical">
+      <input name="username" id="username" placeholder="Username" class="button text-f grey" required>
+      <input type="password" name="password" id="password" placeholder="Password" class="button text-f grey" required>
+      <input type="submit" value="Register" class="button button-f orange">
+    </form>
+</body>
+</html>
