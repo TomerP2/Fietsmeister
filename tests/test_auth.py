@@ -1,6 +1,6 @@
 import pytest
 from flask import g, session
-from flaskr.db import get_db
+from app.db import get_cursor
 
 
 def test_register(client, app):
@@ -11,10 +11,10 @@ def test_register(client, app):
     assert response.headers["Location"] == "/auth/login"
 
     with app.app_context():
-        assert get_db().execute(
-            "SELECT * FROM user WHERE username = 'a'",
-        ).fetchone() is not None
-
+        cursor = get_cursor()
+        cursor.execute("SELECT * FROM users WHERE username = 'a'")
+        row = cursor.fetchone()
+        assert row is not None
 
 @pytest.mark.parametrize(('username', 'password', 'message'), (
     ('', '', b'Username is required.'),
@@ -26,13 +26,14 @@ def test_register_validate_input(client, username, password, message):
         '/auth/register',
         data={'username': username, 'password': password}
     )
+    print (response.data)
     assert message in response.data
 
 
 def test_login(client, auth):
     assert client.get('/auth/login').status_code == 200
     response = auth.login()
-    assert response.headers["Location"] == "/"
+    assert response.headers["Location"] == "/map"
 
     with client:
         client.get('/')

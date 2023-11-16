@@ -5,7 +5,9 @@ from flask import (
 )
 from werkzeug.security import check_password_hash, generate_password_hash
 
-from app.db import get_db
+from app.db import get_cursor, get_db
+
+from psycopg2.errors import UniqueViolation
 
 
 bp = Blueprint('auth', __name__, url_prefix='/auth')
@@ -17,8 +19,8 @@ def load_logged_in_user():
     if user_id is None:
         g.user = None
     else:
-        g.user = get_db().execute(
-            'SELECT * FROM user WHERE id = ?', (user_id,)
+        g.user = get_cursor().execute(
+            'SELECT * FROM users WHERE id = ?', (user_id,)
         ).fetchone()
 
 
@@ -27,6 +29,7 @@ def register():
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
+        cursor = get_cursor()
         db = get_db()
         error = None
 
@@ -37,15 +40,14 @@ def register():
 
         if error is None:
             try:
-                db.execute(
-                    "INSERT INTO user (username, password) VALUES (?, ?)",
-                    (username, generate_password_hash(password)),
-                ) 
+                cursor.execute(
+                    f"INSERT INTO users (username, password, active) VALUES ('{username}', '{generate_password_hash(password)}', TRUE)"
+                )
                 db.commit()
-            except db.IntegrityError:
-                error = f"User {username} is already registered."
-            else:
                 return redirect(url_for("auth.login"))
+            except UniqueViolation:
+                error = 'already registered'
+                
 
         flash(error)
 
@@ -57,21 +59,33 @@ def login():
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
-        db = get_db()
+        cursor = get_cursor()
         error = None
-        user = db.execute(
-            'SELECT * FROM user WHERE username = ?', (username,)
-        ).fetchone()
+
+
+        query = f"SELECT * FROM users WHERE username = '{username}'"
+        print (f"query: {query}")
+
+        cursor.execute(query)
+        row = cursor.fetchone()
+        print (f"row: {row}")
+
+        user = {
+            'username': row[0],
+            'password': row[1] 
+        }
 
         if user is None:
             error = 'Incorrect username.'
         elif not check_password_hash(user['password'], password):
             error = 'Incorrect password.'
 
+        print (f"error: {error}")
         if error is None:
+            print ('login succesful')
             session.clear()
             session['user_id'] = user['id']
-            return redirect(url_for('index'))
+            return redirect(url_for('map.map'))
 
         flash(error)
 

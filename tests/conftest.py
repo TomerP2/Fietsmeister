@@ -2,12 +2,11 @@ import os
 import tempfile
 
 import pytest
-from flaskr import create_app
-from flaskr.db import get_db, init_db
+from app import create_app
+from app.db import get_db, get_cursor, init_db
 
 with open(os.path.join(os.path.dirname(__file__), 'data.sql'), 'rb') as f:
     _data_sql = f.read().decode('utf8')
-
 
 @pytest.fixture
 def app():
@@ -15,12 +14,20 @@ def app():
 
     app = create_app({
         'TESTING': True,
-        'DATABASE': db_path,
+        'POSTGRES_DB': 'fietsmeister_testing_db',
+        'POSTGRES_USER': 'postgres',
+        'POSTGRES_PASSWORD': 'password',
+        'POSTGRES_HOST': 'localhost',
+        'POSTGRES_PORT': '5432',
     })
 
     with app.app_context():
         init_db()
-        get_db().executescript(_data_sql)
+        db = get_db()
+        cursor = get_cursor()
+        cursor.execute(_data_sql)
+        # cursor.execute("INSERT INTO users (username, password) VALUES ('test', 'password')")
+        db.commit()
 
     yield app
 

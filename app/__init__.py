@@ -7,16 +7,17 @@ def create_app(test_config=None):
     app = Flask(__name__, instance_relative_config=True)
     app.config.from_mapping(
         SECRET_KEY='dev',
-        POSTGRES_DB = 'fietsmeister_db',
-        POSTGRES_USER = 'postgres',
-        POSTGRES_PASSWORD = 'password',
-        POSTGRES_HOST = 'localhost',
-        POSTGRES_PORT = '5432',
     )
 
     if test_config is None:
         # load the instance config, if it exists, when not testing
-        app.config.from_pyfile('config.py', silent=True)
+        app.config.from_mapping(
+            POSTGRES_DB = 'fietsmeister_db',
+            POSTGRES_USER = 'postgres',
+            POSTGRES_PASSWORD = 'password',
+            POSTGRES_HOST = 'localhost',
+            POSTGRES_PORT = '5432',
+        )
     else:
         # load the test config if passed in
         app.config.from_mapping(test_config)
@@ -27,9 +28,9 @@ def create_app(test_config=None):
     except OSError:
         pass
 
-    # a simple page that says hello
+    # show main page
     @app.route('/')
-    def hello():
+    def show_main_page():
         return render_template('index.html')
 
     from . import db

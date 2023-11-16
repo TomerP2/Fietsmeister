@@ -7,6 +7,13 @@ def init_app(app):
     app.teardown_appcontext(close_db)
     app.cli.add_command(init_db_command)
 
+def get_cursor():
+    db = get_db()
+    if 'cursor' not in g:
+        g.cursor = db.cursor()
+
+    return g.cursor
+
 def get_db():
     if 'db' not in g:
         dbname = current_app.config['POSTGRES_DB']
