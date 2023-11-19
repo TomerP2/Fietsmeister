@@ -16,6 +16,7 @@ def test_register(client, app):
         row = cursor.fetchone()
         assert row is not None
 
+
 @pytest.mark.parametrize(('username', 'password', 'message'), (
     ('', '', b'Username is required.'),
     ('a', '', b'Password is required.'),
