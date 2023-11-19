@@ -5,7 +5,7 @@ from flask import (
 )
 from werkzeug.security import check_password_hash, generate_password_hash
 
-from app.db import get_cursor, get_db
+from app.db import get_cursor, get_db, get_user_by_id, get_user_by_username
 
 from psycopg2.errors import UniqueViolation
 
@@ -19,10 +19,7 @@ def load_logged_in_user():
     if user_id is None:
         g.user = None
     else:
-        g.user = get_cursor().execute(
-            'SELECT * FROM users WHERE id = ?', (user_id,)
-        ).fetchone()
-
+        g.user = get_user_by_id(user_id)
 
 @bp.route('/register', methods=('GET', 'POST'))
 def register():
@@ -59,33 +56,19 @@ def login():
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
-        cursor = get_cursor()
         error = None
-
-
-        query = f"SELECT * FROM users WHERE username = '{username}'"
-        print (f"query: {query}")
-
-        cursor.execute(query)
-        row = cursor.fetchone()
-        print (f"row: {row}")
-
-        user = {
-            'username': row[0],
-            'password': row[1] 
-        }
+        user = get_user_by_username(username)
 
         if user is None:
             error = 'Incorrect username.'
         elif not check_password_hash(user['password'], password):
             error = 'Incorrect password.'
 
-        print (f"error: {error}")
         if error is None:
             print ('login succesful')
             session.clear()
             session['user_id'] = user['id']
-            return redirect(url_for('map.map'))
+            return redirect(url_for('map.index'))
 
         flash(error)
 
@@ -95,7 +78,7 @@ def login():
 @bp.route('/logout')
 def logout():
     session.clear()
-    return redirect(url_for('index'))
+    return redirect(url_for('show_main_page'))
 
 
 def login_required(view):
