@@ -16,6 +16,7 @@ function main(){
   addGeoJSONToMap(map, wfsUrl, BlokkeringIconGroot);
 }
 
+// Function to get the basemap layer
 function getBasemap() {
   return L.tileLayer('https://service.pdok.nl/brt/achtergrondkaart/wmts/v2_0/pastel/EPSG:3857/{z}/{x}/{y}.png', {
     minZoom: 6,
