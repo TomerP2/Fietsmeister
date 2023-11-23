@@ -43,7 +43,15 @@ async function addGeoJSONToMap(map, wfsUrl, icon) {
 
     L.geoJSON(data, {
       pointToLayer: function (feature, latlng) {
-        return L.marker(latlng, { icon: icon });
+        const marker = L.marker(latlng, { icon: icon });
+
+        // Add click events to each marker
+        marker.on('click', function () {
+          // Center the map on the clicked marker and zoom in
+          map.setView(latlng, 18);
+        });
+
+        return marker
       },
     }).addTo(map);
   } catch (error) {
