@@ -1,10 +1,15 @@
 import os
 
 from flask import Flask, render_template
+from flask_cors import CORS
 
 def create_app(test_config=None):
     # create and configure the app
     app = Flask(__name__, instance_relative_config=True)
+
+    # Allows access between Flask app and geoserver. #TODO: Change this to only allow access to geoserver port
+    CORS(app)
+
     app.config.from_mapping(
         SECRET_KEY='dev',
     )
