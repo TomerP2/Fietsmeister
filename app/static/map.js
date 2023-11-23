@@ -41,22 +41,27 @@ async function addGeoJSONToMap(map, wfsUrl, icon) {
     const response = await fetch(wfsUrl);
     const data = await response.json();
 
-    L.geoJSON(data, {
-      pointToLayer: function (feature, latlng) {
-        const marker = L.marker(latlng, { icon: icon });
-
-        // Add click events to each marker
-        marker.on('click', function () {
-          // Center the map on the clicked marker and zoom in
-          map.setView(latlng, 18);
-        });
-
-        return marker
-      },
-    }).addTo(map);
+    createLayerFromJson(data, icon, map).addTo(map);
   } catch (error) {
     console.error("Error fetching or processing GeoJSON:", error);
   }
+}
+
+// Function to create layer from the GeoJSON and add neccesary stuff to layer
+function createLayerFromJson(data, icon, map) {
+  return L.geoJSON(data, {
+    pointToLayer: function (feature, latlng) {
+      const marker = L.marker(latlng, { icon: icon });
+
+      // Add click events to each marker
+      marker.on('click', function () {
+        // Center the map on the clicked marker and zoom in
+        map.setView(latlng, 18);
+      });
+
+      return marker;
+    },
+  });
 }
 
 main();
