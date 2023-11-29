@@ -1,0 +1,91 @@
+#info{
+    border-radius: 25px 25px 0 0;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100vw;
+    background-color: var(--main);
+    text-align: center;
+    z-index: 1; /* Set a higher z-index for the info div */
+
+    display: flex;
+    flex-direction: column;
+    justify-content: stretch;
+}
+
+/* Top section of info tab */
+#header-container{
+    display: flex;
+}
+
+#header-container-left{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    gap: 10px;
+    padding: 10px;
+}
+
+#header-container-left h1{
+    margin: 0;
+}
+
+#header-container-left p{
+    margin: 0;
+}
+
+#close-info-button{
+    position: fixed;
+    top: 10px;
+    right: 10px;
+}
+
+.small-icon{
+    width: 30px;
+    height: auto;
+}
+
+.light-divider{
+    border-top: 1px solid var(--accent_light);
+    margin: 0;
+}
+
+/* Middle section of info tab */
+#marked-true-false-container{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    padding-left: 10px;
+}
+
+.marked-true-false-container-inside{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 8px;
+}
+
+/* Bottom section of info tab */
+#mark-true-false-container{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: scale;
+    padding: 20px;
+}
+
+#mark-true-false-container-inside{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 80vw;
+}
+
+.large-icon{
+    width: auto;
+    height: 40px;
+}
