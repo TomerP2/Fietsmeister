@@ -55,6 +55,10 @@ function createLayerFromJson(data, icon, map) {
 
       // Add click events to each marker
       marker.on('click', function () {
+        // Adjust the height of the map container to x% of the viewport height
+        const newHeight = window.innerHeight * 0.75;
+        map.getContainer().style.height = `${newHeight}px`;
+        map.invalidateSize();
         // Center the map on the clicked marker and zoom in
         map.setView(latlng, 18);
       });

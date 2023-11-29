@@ -27,7 +27,7 @@
         <div id="header-container">
             <div id="header-container-left">
                 <h1 class="title-f">BLOKKERING</h1>
-                <p class="text-f">2 dagen geleden gepost door tomr1234</p>
+                <p class="text-f" id="posted-by-text">2 dagen geleden gepost door tomr1234</p>
             </div>
             <img id="close-info-button" src="{{ url_for('static', filename='close_info_tab.png') }}">
         </div>
@@ -35,11 +35,11 @@
         <div id="marked-true-false-container" >
             <div id="marked-true-container" class="marked-true-false-container-inside">
                 <img class="small-icon" src="{{ url_for('static', filename='marked_true_small.png') }}" scale="">
-                <p class="text-f">23 Keer gemarkeerd als kloppend</p>
+                <p class="text-f" id="marked-true-text">23 Keer gemarkeerd als kloppend</p>
             </div>
             <div id="marked-false-container" class="marked-true-false-container-inside">
                 <img class="small-icon" src="{{ url_for('static', filename='marked_false_small.png') }}">
-                <p class="text-f">2 Keer gemarkeerd als niet kloppend</p>
+                <p class="text-f" id="marked-false-text">2 Keer gemarkeerd als niet kloppend</p>
             </div>
         </div>
         <hr class="light-divider">
