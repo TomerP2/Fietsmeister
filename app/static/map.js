@@ -14,6 +14,11 @@ function main(){
   // Fetch and add GeoJSON data to the map
   const wfsUrl = "http://localhost:8181/geoserver/fietsmeister/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=fietsmeister%3Ablokkages&outputFormat=application%2Fjson";
   addGeoJSONToMap(map, wfsUrl, BlokkeringIconGroot);
+
+  // Add click event listener to the map
+  map.on("click", function () {
+    hidePointInfo(map); // Hide the info element on map click
+  });
 }
 
 // Function to get the basemap layer
@@ -55,17 +60,39 @@ function createLayerFromJson(data, icon, map) {
 
       // Add click events to each marker
       marker.on('click', function () {
-        // Adjust the height of the map container to x% of the viewport height
-        const newHeight = window.innerHeight * 0.75;
-        map.getContainer().style.height = `${newHeight}px`;
-        map.invalidateSize();
-        // Center the map on the clicked marker and zoom in
-        map.setView(latlng, 18);
+        // Display information about the clicked point
+        displayPointInfo(latlng, map);
       });
 
       return marker;
     },
   });
+}
+
+// Function to display information about the clicked point
+function displayPointInfo(latlng, map) {
+  // Adjust the height of the map container to x% of the viewport height
+  const newHeight = window.innerHeight * 0.75;
+  map.getContainer().style.height = `${newHeight}px`;
+  map.invalidateSize();
+
+  // Center the map on the clicked marker and zoom in
+  map.setView(latlng, 18);
+
+  // Display info div
+  const infoElement = document.getElementById("info");
+  infoElement.style.display = "flex"; // Show the info element
+}
+
+// Function to hide the information about the clicked point
+function hidePointInfo(map) {
+  // Adjust the height of the map container back to 100%
+  map.getContainer().style.height = `100%`;
+  map.invalidateSize();
+
+  // Hide info div
+  const infoElement = document.getElementById("info");
+  infoElement.style.display = "none"; // Hide the info element
 }
 
 main();

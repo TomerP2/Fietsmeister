@@ -8,7 +8,7 @@
     text-align: center;
     z-index: 1; /* Set a higher z-index for the info div */
 
-    display: flex;
+    display: none;
     flex-direction: column;
     justify-content: stretch;
 }
