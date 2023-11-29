@@ -24,7 +24,7 @@
     <div class="flash">{{ message }}</div>
     {% endfor %}
     <div id="info">
-        <div id="header-container" class="info-subcontainer">
+        <div id="header-container">
             <div id="header-container-left">
                 <h1 class="title-f">BLOKKERING</h1>
                 <p class="text-f">2 dagen geleden gepost door tomr1234</p>
@@ -32,7 +32,7 @@
             <img id="close-info-button" src="{{ url_for('static', filename='close_info_tab.png') }}">
         </div>
         <hr class="light-divider">
-        <div id="marked-true-false-container" class="info-subcontainer">
+        <div id="marked-true-false-container" >
             <div id="marked-true-container" class="marked-true-false-container-inside">
                 <img class="small-icon" src="{{ url_for('static', filename='marked_true_small.png') }}" scale="">
                 <p class="text-f">23 Keer gemarkeerd als kloppend</p>
@@ -43,7 +43,7 @@
             </div>
         </div>
         <hr class="light-divider">
-        <div id="mark-true-false-container" class="info-subcontainer">
+        <div id="mark-true-false-container">
             <div id="mark-true-false-container-inside">
                 <img id="mark-true" class="large-icon" src="{{ url_for('static', filename='mark_true_large.png') }}">
                 <img id="mark-false" class="large-icon" src="{{ url_for('static', filename='mark_false_large.png') }}">
