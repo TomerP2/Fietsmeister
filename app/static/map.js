@@ -57,11 +57,12 @@ function createLayerFromJson(data, icon, map) {
   return L.geoJSON(data, {
     pointToLayer: function (feature, latlng) {
       const marker = L.marker(latlng, { icon: icon });
+      const id = feature.id.split('.')[1]
 
       // Add click events to each marker
       marker.on('click', function () {
         // Display information about the clicked point
-        displayPointInfo(latlng, map);
+        displayPointInfo(id, latlng, map);
       });
 
       return marker;
@@ -70,7 +71,7 @@ function createLayerFromJson(data, icon, map) {
 }
 
 // Function to display information about the clicked point
-function displayPointInfo(latlng, map) {
+async function displayPointInfo(id, latlng, map) {
   // Adjust the height of the map container to x% of the viewport height
   const newHeight = window.innerHeight * 0.75;
   map.getContainer().style.height = `${newHeight}px`;
@@ -79,9 +80,33 @@ function displayPointInfo(latlng, map) {
   // Center the map on the clicked marker and zoom in
   map.setView(latlng, 18);
 
-  // Display info div
-  const infoElement = document.getElementById("info");
-  infoElement.style.display = "flex"; // Show the info element
+  try {
+    // Fetch feature info from Flask api
+    const blokkageInfoAPI = `http://127.0.0.1:5000/api/blokkageinfo/${id}`;
+    const response = await fetch(blokkageInfoAPI);
+    
+    if (!response.ok) {
+      throw new Error(`Failed to fetch data. Status: ${response.status}`);
+    }
+
+    const featureInfo = await response.json();
+
+    // Update info div based on fetched info
+    const postedByTextElement = document.getElementById("posted-by-text");
+    postedByTextElement.textContent = `${featureInfo.days_ago} dagen geleden gepost door ${featureInfo.username}`;
+
+    const markedTrueTextElement = document.getElementById("marked-true-text");
+    markedTrueTextElement.textContent = `${featureInfo.marked_true} keer gemarkeerd als kloppend`;
+
+    const markedFalseTextElement = document.getElementById("marked-false-text");
+    markedFalseTextElement.textContent = `${featureInfo.marked_false} keer gemarkeerd als niet kloppend`;
+
+    // Display info div
+    const infoElement = document.getElementById("info");
+    infoElement.style.display = "flex"; // Show the info element
+  } catch (error) {
+    console.error("Error fetching or processing feature info:", error);
+  }
 }
 
 // Function to hide the information about the clicked point
