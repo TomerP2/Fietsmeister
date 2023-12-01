@@ -14,7 +14,7 @@ bp = Blueprint('map', __name__)
 def index():
     return render_template('map/map.html')
 
-@bp.route('/api/blokkageinfo/<id>', methods=['GET'])
+@bp.route('/api/blokkageinfo/<int:id>', methods=['GET'])
 def get_blokkage_info(id):
     cursor = get_cursor()
     cursor.execute(f"""
@@ -25,8 +25,8 @@ def get_blokkage_info(id):
     (SELECT COUNT(*) FROM marked_false mt WHERE b.id = mt.blokkage_id) AS marked_false
     FROM blokkages b
     JOIN users u on b.created_by = u.id
-    WHERE b.id = {id}
-    """)
+    WHERE b.id = %s
+    """, (id,))
     row = cursor.fetchone()
     data = {
         "id": int(id),
