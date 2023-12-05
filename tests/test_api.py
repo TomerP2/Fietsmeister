@@ -25,8 +25,9 @@ def test_get_blokkage_info(client):
 ))
 def test_mark_blokkage_true(client, app, api_endpoint, blokkage_id, user_id, message, blokkages_count):
     response = client.post(
-    f'/api/{api_endpoint}',
-    data={'blokkage_id': blokkage_id, 'user_id': user_id}
+        f'/api/{api_endpoint}',
+        json={'blokkage_id': blokkage_id, 'user_id': user_id},
+        content_type='application/json'
     )
     assert message in response.data
 

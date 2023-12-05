@@ -52,8 +52,9 @@ def mark_false():
 def mark_true_or_false(request, marked_true):
     try:
         # Extract data from the request
-        blokkage_id = request.form.get("blokkage_id")
-        user_id = request.form.get("user_id")
+        data = request.get_json()
+        blokkage_id = data.get("blokkage_id")
+        user_id = data.get("user_id")
 
         # Validate input
         if not blokkage_id or not user_id:
