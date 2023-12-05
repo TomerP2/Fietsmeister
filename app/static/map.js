@@ -126,7 +126,7 @@ async function displayPointInfo(point_id, latlng, map) {
 
     // Display info div
     const infoElement = document.getElementById("info");
-    infoElement.style.display = "flex"; // Show the info element
+    infoElement.classList.add('move-up'); // Play animation
   } catch (error) {
     console.error("Error fetching or processing feature info:", error);
   }
@@ -174,7 +174,7 @@ function hidePointInfo(map) {
 
   // Hide info div
   const infoElement = document.getElementById("info");
-  infoElement.style.display = "none"; // Hide the info element
+  infoElement.classList.remove("move-up")
 }
 
 // Function to get the ID of currently logged in user

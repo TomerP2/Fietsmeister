@@ -8,11 +8,18 @@
     text-align: center;
     z-index: 1; /* Set a higher z-index for the info div */
 
-    display: none;
+    display: flex;
     flex-direction: column;
     justify-content: stretch;
 
     box-shadow: 0 -5px 20px rgba(0, 0, 0, 0.2);
+
+    transform: translateY(100%); /* Initial position outside the viewport */
+    transition: transform 0.1s ease;
+}
+
+#info.move-up {
+    transform: translateY(0); /* Move up to translateY(0) to appear on the screen */
 }
 
 /* Top section of info tab */
