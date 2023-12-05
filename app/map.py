@@ -41,6 +41,15 @@ def get_blokkage_info(id):
 
 @bp.route('/api/marktrue', methods=['POST'])
 def mark_true():
+    return mark_true_or_false(request, True)
+
+
+@bp.route('/api/markfalse', methods=['POST'])
+def mark_false():
+    return mark_true_or_false(request, False)
+    
+
+def mark_true_or_false(request, marked_true):
     try:
         # Extract data from the request
         blokkage_id = request.form.get("blokkage_id")
@@ -54,20 +63,23 @@ def mark_true():
         blokkage_id = int(blokkage_id)
         user_id = int(user_id)
 
-        # Check if the blokkage exists (optional, depending on your requirements)
+        # Check if the blokkage exists
         if not blokkage_exists(blokkage_id):
             raise ValueError(f"Blokkage with ID {blokkage_id} does not exist.")
 
+        # Add point to either 'marked_true' table or 'marked_false' table
         cursor = get_cursor()
         db = get_db()
 
-        # Use triple double quotes for the SQL query
-        QUERY = "INSERT INTO marked_true (blokkage_id, created_by) VALUES (%s, %s)"
+        if marked_true: table = 'marked_true'
+        else: table = 'marked_false'
+        QUERY = f"INSERT INTO {table} (blokkage_id, created_by) VALUES (%s, %s)"
+        
 
         cursor.execute(QUERY, (blokkage_id, user_id))
         db.commit()
 
-        return jsonify({"success": True, "message": "Marked as true successfully."})
+        return jsonify({"success": True, "message": "Succesfully marked."})
 
     except ValueError as ve:
         return jsonify({"success": False, "error": str(ve)})
@@ -76,6 +88,7 @@ def mark_true():
         # Log the exception for debugging purposes
         print(f"An error occurred: {str(e)}")
         return jsonify({"success": False, "error": "An unexpected error occurred."})
+
 
 def blokkage_exists(blokkage_id):
     cursor = get_cursor()

@@ -12,21 +12,29 @@ def test_get_blokkage_info(client):
     assert data["marked_false"] == 1
 
 
-@pytest.mark.parametrize(('blokkage_id', 'user_id', 'message', 'blokkages_count'), (
-    (1, '', b"Invalid input. Both blokkage_id and user_id are required.", 2), #No user_id
-    ('', 1, b"Invalid input. Both blokkage_id and user_id are required.", 2), # No blokkage_id
-    (200, 1, b"Blokkage with ID 200 does not exist.", 2), #Nonexistent blokkage_id
-    (1, 1, b"Marked as true successfully.", 3) #Valid input
+@pytest.mark.parametrize(
+    ('api_endpoint','blokkage_id', 'user_id', 'message', 'blokkages_count'), (
+        ('marktrue', 1, '', b"Invalid input. Both blokkage_id and user_id are required.", 2), #Marked true; No user_id
+        ('marktrue', '', 1, b"Invalid input. Both blokkage_id and user_id are required.", 2), #Marked true; No blokkage_id
+        ('marktrue', 200, 1, b"Blokkage with ID 200 does not exist.", 2), #Marked true; Nonexistent blokkage_id
+        ('marktrue', 1, 1, b"Succesfully marked.", 3), #Marked true; Valid input
+        ('markfalse', 1, '', b"Invalid input. Both blokkage_id and user_id are required.", 1), #Marked false; No user_id
+        ('markfalse', '', 1, b"Invalid input. Both blokkage_id and user_id are required.", 1), #Marked false; No blokkage_id
+        ('markfalse', 200, 1, b"Blokkage with ID 200 does not exist.", 1), #Marked false; Nonexistent blokkage_id
+        ('markfalse', 1, 1, b"Succesfully marked.", 2), #Marked false; Valid input
 ))
-def test_mark_blokkage_true(client, app, blokkage_id, user_id, message, blokkages_count):
+def test_mark_blokkage_true(client, app, api_endpoint, blokkage_id, user_id, message, blokkages_count):
     response = client.post(
-    '/api/marktrue',
+    f'/api/{api_endpoint}',
     data={'blokkage_id': blokkage_id, 'user_id': user_id}
     )
-
     assert message in response.data
+
+    if api_endpoint == 'marktrue': table = 'marked_true'
+    else: table = 'marked_false'
+
     with app.app_context():
         cursor = get_cursor()
-        cursor.execute("SELECT COUNT(*) FROM marked_true WHERE blokkage_id = 1")
+        cursor.execute(f"SELECT COUNT(*) FROM {table} WHERE blokkage_id = 1")
         count = cursor.fetchone()[0]
         assert count == blokkages_count
