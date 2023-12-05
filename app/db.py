@@ -28,7 +28,17 @@ def get_user_by_id_or_username(input, is_ID):
         'id': row[0],
         'username': row[1],
         'password': row[2],
+        'marked_points': get_points_marked_by_user(row[0], cursor)
     }
+ 
+def get_points_marked_by_user(id, cursor):
+    points = []
+    for table in ("marked_true", "marked_false"):
+        cursor.execute(f"SELECT id FROM {table} WHERE created_by = {id}")
+        results = cursor.fetchall()
+        for result in results:
+            points.append(result[0])
+    return points
 
 def get_cursor():
     db = get_db()

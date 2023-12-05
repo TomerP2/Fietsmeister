@@ -101,12 +101,22 @@ async function displayPointInfo(point_id, latlng, map) {
     const markedFalseTextElement = document.getElementById("marked-false-text");
     markedFalseTextElement.textContent = `${featureInfo.marked_false} keer gemarkeerd als niet kloppend`;
 
-    // Get the button elements and add event listeners
+    // Get the button elements
     const markTrueElement = document.getElementById('mark-true');
-    addButtonEventListener(markTrueElement, point_id, true);
-
     const markFalseElement = document.getElementById('mark-false');
-    addButtonEventListener(markFalseElement, point_id, false);
+
+    // Check if user already marked point
+    let userInfo = await getCurrentUserInfo();
+    if (point_id in userInfo.marked_points) {
+      markTrueElement.style.display = "none";
+      markFalseElement.style.display = "none";
+    } else{
+      markTrueElement.style.display = "inline"
+      addButtonEventListener(markTrueElement, point_id, true);
+
+      markTrueElement.style.display = "inline"
+      addButtonEventListener(markFalseElement, point_id, false);
+    }
 
     // Display info div
     const infoElement = document.getElementById("info");
@@ -117,7 +127,7 @@ async function displayPointInfo(point_id, latlng, map) {
 }
 
 async function addButtonEventListener(Button, point_id, markedTrue) {
-  let userID = await getCurrentUserID();
+  let userInfo = await getCurrentUserInfo();
 
   let apiURL = 'http://127.0.0.1:5000/api/'
   if (markedTrue) {
@@ -135,7 +145,7 @@ async function addButtonEventListener(Button, point_id, markedTrue) {
       },
       body: JSON.stringify({
         'blokkage_id': point_id,
-        'user_id': userID,
+        'user_id': userInfo.id,
       })
     })
       .then(response => response.json())
@@ -162,7 +172,7 @@ function hidePointInfo(map) {
 }
 
 // Function to get the ID of currently logged in user
-async function getCurrentUserID() {
+async function getCurrentUserInfo() {
   try {
     const response = await fetch('/api/currentuserinfo/', {
       method: 'GET',
@@ -176,9 +186,8 @@ async function getCurrentUserID() {
     if (data.error) {
       console.error('Error:', data.error);
     } else {
-      const userId = data.id;
-      console.log('User ID:', userId);
-      return userId;
+      console.log('User Info:', data);
+      return data;
     }
   } catch (error) {
     console.error('Error fetching current user info:', error);

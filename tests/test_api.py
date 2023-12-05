@@ -16,7 +16,7 @@ def test_get_user_info(client, auth):
     auth.login()
     response = client.get('/api/currentuserinfo/')
     data = json.loads(response.data)
-    assert data["id"] == 1 and data["username"] == "test"
+    assert data["id"] == 1 and data["username"] == "test" and data["marked_points"] == [1, 2, 1]
 
 
 def test_get_user_info_validate(client, auth):

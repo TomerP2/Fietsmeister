@@ -44,7 +44,8 @@ def get_current_user_info():
     if g.user:
         return jsonify({
             "id": g.user["id"],
-            "username": g.user["username"]
+            "username": g.user["username"],
+            "marked_points": g.user["marked_points"],
         })
     else:
         return jsonify({
