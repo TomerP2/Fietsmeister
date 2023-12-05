@@ -116,7 +116,9 @@ async function displayPointInfo(point_id, latlng, map) {
   }
 }
 
-function addButtonEventListener(Button, point_id, markedTrue) {
+async function addButtonEventListener(Button, point_id, markedTrue) {
+  let userID = await getCurrentUserID();
+
   let apiURL = 'http://127.0.0.1:5000/api/'
   if (markedTrue) {
     apiURL += 'marktrue'
@@ -133,7 +135,7 @@ function addButtonEventListener(Button, point_id, markedTrue) {
       },
       body: JSON.stringify({
         'blokkage_id': point_id,
-        'user_id': 1,
+        'user_id': userID,
       })
     })
       .then(response => response.json())
@@ -159,5 +161,28 @@ function hidePointInfo(map) {
   infoElement.style.display = "none"; // Hide the info element
 }
 
+// Function to get the ID of currently logged in user
+async function getCurrentUserID() {
+  try {
+    const response = await fetch('/api/currentuserinfo/', {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+
+    const data = await response.json();
+
+    if (data.error) {
+      console.error('Error:', data.error);
+    } else {
+      const userId = data.id;
+      console.log('User ID:', userId);
+      return userId;
+    }
+  } catch (error) {
+    console.error('Error fetching current user info:', error);
+  }
+}
 
 main();
