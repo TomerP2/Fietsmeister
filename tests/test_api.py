@@ -12,6 +12,19 @@ def test_get_blokkage_info(client):
     assert data["marked_false"] == 1
 
 
+def test_get_user_info(client, auth):
+    auth.login()
+    response = client.get('/api/currentuserinfo/')
+    data = json.loads(response.data)
+    assert data["id"] == 1 and data["username"] == "test"
+
+
+def test_get_user_info_validate(client, auth):
+    response = client.get('/api/currentuserinfo/')
+    data = json.loads(response.data)
+    assert data["error"] == 'no logged in user'
+
+
 @pytest.mark.parametrize(
     ('api_endpoint','blokkage_id', 'user_id', 'message', 'blokkages_count'), (
         ('marktrue', 1, '', b"Invalid input. Both blokkage_id and user_id are required.", 2), #Marked true; No user_id

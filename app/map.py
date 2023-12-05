@@ -39,6 +39,19 @@ def get_blokkage_info(id):
     return jsonify(data)
 
 
+@bp.route('/api/currentuserinfo/', methods=['GET'])
+def get_current_user_info():
+    if g.user:
+        return jsonify({
+            "id": g.user["id"],
+            "username": g.user["username"]
+        })
+    else:
+        return jsonify({
+            "error": "no logged in user"
+        })
+
+
 @bp.route('/api/marktrue', methods=['POST'])
 def mark_true():
     return mark_true_or_false(request, True)
