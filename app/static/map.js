@@ -101,6 +101,60 @@ async function displayPointInfo(id, latlng, map) {
     const markedFalseTextElement = document.getElementById("marked-false-text");
     markedFalseTextElement.textContent = `${featureInfo.marked_false} keer gemarkeerd als niet kloppend`;
 
+    // Make 'Markeer als kloppend' and 'Markeer als niet kloppend' buttons work
+
+    // Get the button elements
+    const markTrueElement = document.getElementById('mark-true');
+    const markFalseElement = document.getElementById('mark-false');
+
+    // Add a click event listener to the mark-true button
+    markTrueElement.addEventListener('click', function() {
+        // Send a POST request to API endpoint
+        fetch('http://127.0.0.1:5000/api/marktrue', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ 
+              'blokkage_id': 1,
+              'user_id': 1, 
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            // Handle the success response if needed
+            console.log('POST request successful', data);
+        })
+        .catch(error => {
+            // Handle the error if the POST request fails
+            console.error('Error in POST request', error);
+        });
+      });
+
+    // Add a click event listener to the mark-false button
+    markFalseElement.addEventListener('click', function() {
+      // Send a POST request to API endpoint
+      fetch('http://127.0.0.1:5000/api/markfalse', {
+          method: 'POST',
+          headers: {
+              'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ 
+            'blokkage_id': 1,
+            'user_id': 1, 
+          })
+      })
+      .then(response => response.json())
+      .then(data => {
+          // Handle the success response if needed
+          console.log('POST request successful', data);
+      })
+      .catch(error => {
+          // Handle the error if the POST request fails
+          console.error('Error in POST request', error);
+      });
+    });
+
     // Display info div
     const infoElement = document.getElementById("info");
     infoElement.style.display = "flex"; // Show the info element
@@ -120,6 +174,5 @@ function hidePointInfo(map) {
   infoElement.style.display = "none"; // Hide the info element
 }
 
-// Function to access 
 
 main();
