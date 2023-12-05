@@ -8,22 +8,17 @@ def init_app(app):
     app.cli.add_command(init_db_command)
 
 def get_user_by_id(user_id):
-    cursor = get_cursor()
-    cursor.execute(f'SELECT * FROM users WHERE id = {user_id}')
-    row = cursor.fetchone()
-
-    if row is None:
-        return None
-    
-    return {
-        'id': row[0],
-        'username': row[1],
-        'password': row[2],
-    }
+    return get_user_by_id_or_username(user_id, True)
 
 def get_user_by_username(username):
+    return get_user_by_id_or_username(username, False)
+
+def get_user_by_id_or_username(input, is_ID):
     cursor = get_cursor()
-    cursor.execute(f"SELECT * FROM users WHERE username = '{username}'")
+    if is_ID: column = 'id'
+    else: column = 'username'
+
+    cursor.execute(f"SELECT * FROM users WHERE {column} = '{input}'")
     row = cursor.fetchone()
 
     if row is None:
