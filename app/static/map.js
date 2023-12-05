@@ -57,12 +57,12 @@ function createLayerFromJson(data, icon, map) {
   return L.geoJSON(data, {
     pointToLayer: function (feature, latlng) {
       const marker = L.marker(latlng, { icon: icon });
-      const id = feature.id.split('.')[1]
+      const point_id = feature.id.split('.')[1]
 
       // Add click events to each marker
       marker.on('click', function () {
         // Display information about the clicked point
-        displayPointInfo(id, latlng, map);
+        displayPointInfo(point_id, latlng, map);
       });
 
       return marker;
@@ -71,7 +71,7 @@ function createLayerFromJson(data, icon, map) {
 }
 
 // Function to display information about the clicked point
-async function displayPointInfo(id, latlng, map) {
+async function displayPointInfo(point_id, latlng, map) {
   // Adjust the height of the map container to x% of the viewport height
   const newHeight = window.innerHeight * 0.75;
   map.getContainer().style.height = `${newHeight}px`;
@@ -82,7 +82,7 @@ async function displayPointInfo(id, latlng, map) {
 
   try {
     // Fetch feature info from Flask api
-    const blokkageInfoAPI = `http://127.0.0.1:5000/api/blokkageinfo/${id}`;
+    const blokkageInfoAPI = `http://127.0.0.1:5000/api/blokkageinfo/${point_id}`;
     const response = await fetch(blokkageInfoAPI);
     
     if (!response.ok) {
@@ -101,59 +101,12 @@ async function displayPointInfo(id, latlng, map) {
     const markedFalseTextElement = document.getElementById("marked-false-text");
     markedFalseTextElement.textContent = `${featureInfo.marked_false} keer gemarkeerd als niet kloppend`;
 
-    // Make 'Markeer als kloppend' and 'Markeer als niet kloppend' buttons work
-
-    // Get the button elements
+    // Get the button elements and add event listeners
     const markTrueElement = document.getElementById('mark-true');
+    addButtonEventListener(markTrueElement, point_id, true);
+
     const markFalseElement = document.getElementById('mark-false');
-
-    // Add a click event listener to the mark-true button
-    markTrueElement.addEventListener('click', function() {
-        // Send a POST request to API endpoint
-        fetch('http://127.0.0.1:5000/api/marktrue', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ 
-              'blokkage_id': 1,
-              'user_id': 1, 
-            })
-        })
-        .then(response => response.json())
-        .then(data => {
-            // Handle the success response if needed
-            console.log('POST request successful', data);
-        })
-        .catch(error => {
-            // Handle the error if the POST request fails
-            console.error('Error in POST request', error);
-        });
-      });
-
-    // Add a click event listener to the mark-false button
-    markFalseElement.addEventListener('click', function() {
-      // Send a POST request to API endpoint
-      fetch('http://127.0.0.1:5000/api/markfalse', {
-          method: 'POST',
-          headers: {
-              'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ 
-            'blokkage_id': 1,
-            'user_id': 1, 
-          })
-      })
-      .then(response => response.json())
-      .then(data => {
-          // Handle the success response if needed
-          console.log('POST request successful', data);
-      })
-      .catch(error => {
-          // Handle the error if the POST request fails
-          console.error('Error in POST request', error);
-      });
-    });
+    addButtonEventListener(markFalseElement, point_id, false);
 
     // Display info div
     const infoElement = document.getElementById("info");
@@ -161,6 +114,38 @@ async function displayPointInfo(id, latlng, map) {
   } catch (error) {
     console.error("Error fetching or processing feature info:", error);
   }
+}
+
+function addButtonEventListener(Button, point_id, markedTrue) {
+  let apiURL = 'http://127.0.0.1:5000/api/'
+  if (markedTrue) {
+    apiURL += 'marktrue'
+  } else {
+    apiURL += 'markfalse'
+  }
+
+  Button.addEventListener('click', function () {
+    // Send a POST request to API endpoint
+    fetch(apiURL, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        'blokkage_id': point_id,
+        'user_id': 1,
+      })
+    })
+      .then(response => response.json())
+      .then(data => {
+        // Handle the success response if needed
+        console.log('POST request successful', data);
+      })
+      .catch(error => {
+        // Handle the error if the POST request fails
+        console.error('Error in POST request', error);
+      });
+  });
 }
 
 // Function to hide the information about the clicked point
