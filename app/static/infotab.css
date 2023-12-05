@@ -19,6 +19,7 @@
 #header-container{
     display: flex;
     padding: 3vw;
+    justify-content: space-between;
 }
 
 #header-container-left{
@@ -38,7 +39,7 @@
 }
 
 #close-info-button{
-    position: fixed;
+    height: 3vh;
     top: 10px;
     right: 10px;
 }

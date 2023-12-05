@@ -80,6 +80,12 @@ async function displayPointInfo(point_id, latlng, map) {
   // Center the map on the clicked marker and zoom in
   map.setView(latlng, 18);
 
+  // Add event listener to 'close' button
+  const closeButtonElement = document.getElementById("close-info-button")
+  closeButtonElement.addEventListener('click', function(){
+      hidePointInfo(map)
+  })
+
   try {
     // Fetch feature info from Flask api
     const blokkageInfoAPI = `http://127.0.0.1:5000/api/blokkageinfo/${point_id}`;
