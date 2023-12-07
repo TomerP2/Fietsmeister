@@ -23,6 +23,12 @@
     {% for message in get_flashed_messages() %}
     <div class="flash">{{ message }}</div>
     {% endfor %}
+    <div id="report-content-container">
+        <div id="report-button">
+            <p class="button-f">REPORT</p>
+        </div>
+        <p class="button-f" id="report-text">hou ingedrukt om een blokkering toe te voegen</p>
+    </div>
     <div id="info">
         <div id="header-container">
             <div id="header-container-left">

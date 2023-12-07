@@ -6,7 +6,7 @@
     width: 100vw;
     background-color: var(--main);
     text-align: center;
-    z-index: 1; /* Set a higher z-index for the info div */
+    z-index: 1; /* Set a higher z-index to be infront of the map */
 
     display: flex;
     flex-direction: column;
