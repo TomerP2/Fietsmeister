@@ -1,3 +1,6 @@
+// Set some global variables
+let editModeEnabled = false
+
 async function main(){
   // Get user info
   let userInfo = await getCurrentUserInfo()
@@ -10,6 +13,16 @@ async function main(){
 
   // Create BlokkeringIconGroot icon
   const BlokkeringIconGroot = createBlokkeringIcon();
+
+  // Set up event listener for 'report' button
+  const reportButtonElement = document.getElementById('report-button')
+  const reportTextElement = document.getElementById('report-text')
+  reportButtonElement.addEventListener('click', function(){
+    console.log('report button clicked');
+    editModeEnabled = true;
+    reportButtonElement.style.display = 'none';
+    reportTextElement.style.display = 'block'
+  })
 
   // Set up event listener for map location
   map.locate({ setView: true });
@@ -75,6 +88,11 @@ function createLayerFromJson(data, icon, map, userInfo) {
 
  // Function to create a new blokkage
  function createBlokkage(latlng, userInfo) {
+  if (!(editModeEnabled)) {
+    console.log('edit mode not enabled. Wont add a new blokkage')
+    return
+  }
+
   var url = 'http://127.0.0.1:8080/api/createblokkage';
   var data = {
     lat: latlng.lat,
