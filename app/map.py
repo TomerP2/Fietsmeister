@@ -111,3 +111,35 @@ def blokkage_exists(blokkage_id):
     cursor.execute(QUERY, (blokkage_id,))
     count = cursor.fetchone()[0]
     return count == 1
+
+
+@bp.route('/api/createblokkage', methods=['POST'])
+def create_blokkage():
+    try:
+        data = request.get_json()
+        lat = float(data.get("lat"))
+        lon = float(data.get("lon"))
+        user_id = str(data.get("user_id"))
+
+        if not data or not lat or not lon:
+            raise ValueError(f"Invalid input when creating new blokkage: Lat: {lat}, lon: {lon}, user_id: {user_id}")
+        
+        cursor = get_cursor()
+        db = get_db()
+        query = """
+        INSERT INTO blokkages (geom, created_by)
+        VALUES (ST_SetSRID(ST_MakePoint(%s, %s),4326), %s)
+        """
+        cursor.execute(query, (lon, lat, user_id))
+        db.commit()
+        return jsonify({
+            "success": True,
+        })
+        
+    except ValueError as ve:
+        return jsonify({"success": False, "error": str(ve)})
+
+    except Exception as e:
+            # Log the exception for debugging purposes
+            print(f"An error occurred: {str(e)}")
+            return jsonify({"success": False, "error": "An unexpected error occurred."})

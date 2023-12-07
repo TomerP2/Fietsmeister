@@ -52,3 +52,20 @@ def test_mark_blokkage_true(client, app, api_endpoint, blokkage_id, user_id, mes
         cursor.execute(f"SELECT COUNT(*) FROM {table} WHERE blokkage_id = 1")
         count = cursor.fetchone()[0]
         assert count == blokkages_count
+
+
+def test_create_new_blokkage(client, auth, app):
+    auth.login()
+    response = client.post(
+        '/api/createblokkage',
+        json={'lat': 1.0, 'lon': 1.0, 'user_id': 1},
+        content_type='application/json'
+    )
+    assert  json.loads(response.data)["success"] == True
+
+    with app.app_context():
+        cursor = get_cursor()
+        cursor.execute(f"SELECT COUNT(*) FROM blokkages")
+        count = cursor.fetchone()[0]
+        assert count == 3
+
