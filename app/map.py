@@ -118,11 +118,11 @@ def create_blokkage():
     try:
         data = request.get_json()
         lat = float(data.get("lat"))
-        lon = float(data.get("lon"))
+        lng = float(data.get("lng"))
         user_id = str(data.get("user_id"))
 
-        if not data or not lat or not lon:
-            raise ValueError(f"Invalid input when creating new blokkage: Lat: {lat}, lon: {lon}, user_id: {user_id}")
+        if not data or not lng or not lat:
+            raise ValueError(f"Invalid input when creating new blokkage: Lat: {lat}, lng: {lng}, user_id: {user_id}")
         
         cursor = get_cursor()
         db = get_db()
@@ -130,7 +130,7 @@ def create_blokkage():
         INSERT INTO blokkages (geom, created_by)
         VALUES (ST_SetSRID(ST_MakePoint(%s, %s),4326), %s)
         """
-        cursor.execute(query, (lon, lat, user_id))
+        cursor.execute(query, (lng, lat, user_id))
         db.commit()
         return jsonify({
             "success": True,

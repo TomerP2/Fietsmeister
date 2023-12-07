@@ -58,7 +58,7 @@ def test_create_new_blokkage(client, auth, app):
     auth.login()
     response = client.post(
         '/api/createblokkage',
-        json={'lat': 1.0, 'lon': 1.0, 'user_id': 1},
+        json={'lat': 1.0, 'lng': 1.0, 'user_id': 1},
         content_type='application/json'
     )
     assert  json.loads(response.data)["success"] == True
