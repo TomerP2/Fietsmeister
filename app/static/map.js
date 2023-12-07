@@ -120,9 +120,9 @@ async function displayPointInfo(point_id, latlng, map) {
       buttonsContainerElement.style.display = "flex"
       
       const markTrueElement = document.getElementById('mark-true');
-      addButtonEventListener(markTrueElement, point_id, true);
+      addButtonEventListener(markTrueElement, point_id, true, map, latlng);
       const markFalseElement = document.getElementById('mark-false');
-      addButtonEventListener(markFalseElement, point_id, false);
+      addButtonEventListener(markFalseElement, point_id, false, map, latlng);
     }
 
     // Display info div
@@ -133,7 +133,7 @@ async function displayPointInfo(point_id, latlng, map) {
   }
 }
 
-async function addButtonEventListener(Button, point_id, markedTrue) {
+async function addButtonEventListener(Button, point_id, markedTrue, map, latlng) {
   let userInfo = await getCurrentUserInfo();
 
   let apiURL = 'http://127.0.0.1:8080/api/'
@@ -157,12 +157,12 @@ async function addButtonEventListener(Button, point_id, markedTrue) {
     })
       .then(response => response.json())
       .then(data => {
-        // Handle the success response if needed
-        console.log('POST request successful', data);
+        console.log('Point succesfully marked', data);
+        hidePointInfo(map);
+        displayPointInfo(point_id, latlng, map);
       })
       .catch(error => {
-        // Handle the error if the POST request fails
-        console.error('Error in POST request', error);
+        console.error('Error in point marking', error);
       });
   });
 }
