@@ -88,7 +88,7 @@ async function displayPointInfo(point_id, latlng, map) {
 
   try {
     // Fetch feature info from Flask api
-    const blokkageInfoAPI = `http://127.0.0.1:5000/api/blokkageinfo/${point_id}`;
+    const blokkageInfoAPI = `http://127.0.0.1:8080/api/blokkageinfo/${point_id}`;
     const response = await fetch(blokkageInfoAPI);
     
     if (!response.ok) {
@@ -107,20 +107,21 @@ async function displayPointInfo(point_id, latlng, map) {
     const markedFalseTextElement = document.getElementById("marked-false-text");
     markedFalseTextElement.textContent = `${featureInfo.marked_false} keer gemarkeerd als niet kloppend`;
 
-    // Get the button elements
-    const markTrueElement = document.getElementById('mark-true');
-    const markFalseElement = document.getElementById('mark-false');
+    // Create the 'mark true or false' section
+    const buttonsContainerElement = document.getElementById('mark-true-false-buttons-container');
+    const alreadyMarkedTextElement = document.getElementById('already-marked-text');
 
-    // Check if user already marked point
     let userInfo = await getCurrentUserInfo();
     if (point_id in userInfo.marked_points) {
-      markTrueElement.style.display = "none";
-      markFalseElement.style.display = "none";
+      alreadyMarkedTextElement.style.display = "inline";
+      buttonsContainerElement.style.display = "none"
     } else{
-      markTrueElement.style.display = "inline"
+      alreadyMarkedTextElement.style.display = "none";
+      buttonsContainerElement.style.display = "flex"
+      
+      const markTrueElement = document.getElementById('mark-true');
       addButtonEventListener(markTrueElement, point_id, true);
-
-      markTrueElement.style.display = "inline"
+      const markFalseElement = document.getElementById('mark-false');
       addButtonEventListener(markFalseElement, point_id, false);
     }
 
@@ -135,7 +136,7 @@ async function displayPointInfo(point_id, latlng, map) {
 async function addButtonEventListener(Button, point_id, markedTrue) {
   let userInfo = await getCurrentUserInfo();
 
-  let apiURL = 'http://127.0.0.1:5000/api/'
+  let apiURL = 'http://127.0.0.1:8080/api/'
   if (markedTrue) {
     apiURL += 'marktrue'
   } else {

@@ -67,7 +67,8 @@
     flex-direction: column;
     align-items: flex-start;
     justify-content: center;
-    padding-left: 3vw;
+    padding: 3vw;
+    gap: 3vw;
 }
 
 .marked-true-false-container-inside{
@@ -84,11 +85,10 @@
     align-items: center;
     justify-content: center;
     height: scale;
-    padding: 20px;
-    padding-left: 3vw;
+    padding: 3vw;
 }
 
-#mark-true-false-container-inside{
+#mark-true-false-buttons-container{
     display: flex;
     flex-direction: row;
     justify-content: space-between;
