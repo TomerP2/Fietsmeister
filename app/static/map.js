@@ -19,8 +19,8 @@ async function main(){
   addGeoJSONToMap(map, wfsUrl, BlokkeringIconGroot, userInfo);
 
   // Add click event listener to the map
-  map.on("click", function () {
-    hidePointInfo(map); // Hide the info element on map click
+  map.on("click", function (e) {
+    createBlokkage(e.latlng, userInfo)
   });
 }
 
@@ -70,6 +70,32 @@ function createLayerFromJson(data, icon, map, userInfo) {
 
       return marker;
     },
+  });
+}
+
+ // Function to create a new blokkage
+ function createBlokkage(latlng, userInfo) {
+  var url = 'http://127.0.0.1:8080/api/createblokkage';
+  var data = {
+    lat: latlng.lat,
+    lng: latlng.lng,
+    user_id: userInfo.id
+  };
+
+  // Using Fetch API to make a POST request
+  fetch(url, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(data),
+  })
+  .then(response => response.json())
+  .then(data => {
+    console.log('Server response:', data);
+  })
+  .catch(error => {
+    console.error('Error:', error);
   });
 }
 
