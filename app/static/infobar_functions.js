@@ -84,7 +84,7 @@ async function addButtonEventListener(Button, point_id, markedTrue, map, latlng,
       .then(data => {
         console.log('Point succesfully marked', data);
         hidePointInfo(map);
-        displayPointInfo(point_id, latlng, map);
+        displayPointInfo(point_id, userInfo, latlng, map);
       })
       .catch(error => {
         console.error('Error in point marking', error);
