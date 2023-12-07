@@ -112,7 +112,7 @@ async function displayPointInfo(point_id, latlng, map) {
     const alreadyMarkedTextElement = document.getElementById('already-marked-text');
 
     let userInfo = await getCurrentUserInfo();
-    if (point_id in userInfo.marked_points) {
+    if (userInfo.marked_points.includes(parseInt(point_id))) {
       alreadyMarkedTextElement.style.display = "inline";
       buttonsContainerElement.style.display = "none"
     } else{

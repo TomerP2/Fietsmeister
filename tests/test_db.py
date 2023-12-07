@@ -35,4 +35,4 @@ def test_fake_data_loaded_correctly(app):
         db = get_db()
         cursor = get_cursor()
         cursor.execute('SELECT * FROM users')
-        assert len(cursor.fetchall()) == 2
+        assert len(cursor.fetchall()) == 3

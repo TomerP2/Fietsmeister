@@ -34,7 +34,7 @@ def get_user_by_id_or_username(input, is_ID):
 def get_points_marked_by_user(id, cursor):
     points = []
     for table in ("marked_true", "marked_false"):
-        cursor.execute(f"SELECT id FROM {table} WHERE created_by = {id}")
+        cursor.execute(f"SELECT blokkage_id FROM {table} WHERE created_by = {id}")
         results = cursor.fetchall()
         for result in results:
             points.append(result[0])
