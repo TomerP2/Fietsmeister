@@ -12,7 +12,7 @@ function main(){
   map.locate({ setView: true });
 
   // Fetch and add GeoJSON data to the map
-  const wfsUrl = "http://localhost:8080/geoserver/fietsmeister/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=fietsmeister%3Ablokkages&outputFormat=application%2Fjson";
+  const wfsUrl = "http://localhost:8181/geoserver/fietsmeister/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=fietsmeister%3Ablokkages&outputFormat=application%2Fjson";
   addGeoJSONToMap(map, wfsUrl, BlokkeringIconGroot);
 
   // Add click event listener to the map
