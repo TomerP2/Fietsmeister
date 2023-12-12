@@ -52,7 +52,7 @@ function toggleEditMode(on) {
 
 function createBlokkeringIcon() {
   return L.icon({
-    iconUrl: "/static/blokkering_icon_groot.png",
+    iconUrl: "/static/png/blokkering_icon_groot.png",
     iconSize: [30, 30],
     iconAnchor: [15, 15],
   });
@@ -156,7 +156,7 @@ function createBlokkage(latlng, editModeEnabled, map, document) {
 
   function createNewBlokkeringIcon() {
     return L.icon({
-      iconUrl: "/static/new_blokkering_icon.png",
+      iconUrl: "/static/png/new_blokkering_icon.png",
       iconSize: [30, 30],
       iconAnchor: [15, 15],
     });

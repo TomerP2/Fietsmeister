@@ -15,10 +15,10 @@
     integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
     crossorigin=""></script>
 
-    <link rel="stylesheet" href="{{ url_for('static', filename='basics.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='map.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='infotab.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='new_point.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/basics.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/map.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/infotab.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/new_point.css') }}">
 </head>
 <body>
     {% for message in get_flashed_messages() %}
@@ -36,16 +36,16 @@
                 <h1 class="title-f">BLOKKERING</h1>
                 <p class="text-f" id="posted-by-text">2 dagen geleden gepost door tomr1234</p>
             </div>
-            <img id="close-info-button" src="{{ url_for('static', filename='close_tab.png') }}">
+            <img id="close-info-button" src="{{ url_for('static', filename='png/close_tab.png') }}">
         </div>
         <hr class="light-divider">
         <div id="marked-true-false-container" >
             <div id="marked-true-container" class="marked-true-false-container-inside">
-                <img class="small-icon" src="{{ url_for('static', filename='marked_true_small.png') }}" scale="">
+                <img class="small-icon" src="{{ url_for('static', filename='png/marked_true_small.png') }}" scale="">
                 <p class="text-f" id="marked-true-text">23 Keer gemarkeerd als kloppend</p>
             </div>
             <div id="marked-false-container" class="marked-true-false-container-inside">
-                <img class="small-icon" src="{{ url_for('static', filename='marked_false_small.png') }}">
+                <img class="small-icon" src="{{ url_for('static', filename='png/marked_false_small.png') }}">
                 <p class="text-f" id="marked-false-text">2 Keer gemarkeerd als niet kloppend</p>
             </div>
         </div>
@@ -53,21 +53,21 @@
         <div id="mark-true-false-container">
             <p class="text-f" id="already-marked-text">U heeft dit punt al gemarkeerd</p>
             <div id="mark-true-false-buttons-container">
-                <img id="mark-true" class="large-icon" src="{{ url_for('static', filename='mark_true_large.png') }}">
-                <img id="mark-false" class="large-icon" src="{{ url_for('static', filename='mark_false_large.png') }}">
+                <img id="mark-true" class="large-icon" src="{{ url_for('static', filename='png/mark_true_large.png') }}">
+                <img id="mark-false" class="large-icon" src="{{ url_for('static', filename='png/mark_false_large.png') }}">
             </div>
         </div>
     </div>
     <div id="new-point-confirmation">
         <p class="title-f">Nieuwe punt toevoegen?</p>
         <div id="add-point-buttons-container">
-            <img id="add-point-button" class="large-icon" src="{{ url_for('static', filename='add_blokkage_button.png') }}">
-            <img id="dont-add-point-button" class="large-icon" src="{{ url_for('static', filename='dont_add_blokkage_button.png') }}">
+            <img id="add-point-button" class="large-icon" src="{{ url_for('static', filename='png/add_blokkage_button.png') }}">
+            <img id="dont-add-point-button" class="large-icon" src="{{ url_for('static', filename='png/dont_add_blokkage_button.png') }}">
         </div>
     </div>
     <div id="map"></div>
-    <script src="{{ url_for('static', filename='helper_functions.js') }}"></script>
-    <script src="{{ url_for('static', filename='infobar_functions.js') }}"></script>
-    <script src="{{ url_for('static', filename='map.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/helper_functions.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/infobar_functions.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/map.js') }}"></script>
 </body>
 </html>
