@@ -18,6 +18,7 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='basics.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='map.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='infotab.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='new_point.css') }}">
 </head>
 <body>
     {% for message in get_flashed_messages() %}
@@ -55,6 +56,13 @@
                 <img id="mark-true" class="large-icon" src="{{ url_for('static', filename='mark_true_large.png') }}">
                 <img id="mark-false" class="large-icon" src="{{ url_for('static', filename='mark_false_large.png') }}">
             </div>
+        </div>
+    </div>
+    <div id="new-point-confirmation">
+        <p class="title-f">Nieuwe punt toevoegen?</p>
+        <div id="add-point-buttons-container">
+            <img id="add-point-button" class="large-icon" src="{{ url_for('static', filename='add_blokkage_button.png') }}">
+            <img id="dont-add-point-button" class="large-icon" src="{{ url_for('static', filename='dont_add_blokkage_button.png') }}">
         </div>
     </div>
     <div id="map"></div>

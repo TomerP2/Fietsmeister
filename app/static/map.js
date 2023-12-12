@@ -8,6 +8,7 @@ const basemapUrl = 'https://service.pdok.nl/brt/achtergrondkaart/wmts/v2_0/paste
 const BlokkeringIconGroot = createBlokkeringIcon();
 const reportButtonElement = document.getElementById('report-button');
 const reportTextElement = document.getElementById('report-text');
+const addPointConfirmationElement = document.getElementById('new-point-confirmation')
 
 
 async function main(){
@@ -96,13 +97,14 @@ function createBlokkage(latlng) {
   }
 
   var tempMarker = L.marker(latlng, { icon: BlokkeringIconGroot }).addTo(map);
+  map.setView(latlng, 18)
 
   var checkMarkerInterval = setInterval(function () {
     if (map.hasLayer(tempMarker)) {
       clearInterval(checkMarkerInterval);
       showConfirmation();
     }
-  }, 100);
+  }, 200);
 
   function showConfirmation() {
     var userResponse = window.confirm('Place point here?');
