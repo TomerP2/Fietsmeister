@@ -6,6 +6,8 @@ const buttonsContainerElement = document.getElementById('mark-true-false-buttons
 const alreadyMarkedTextElement = document.getElementById('already-marked-text');
 const markTrueElement = document.getElementById('mark-true');
 const markFalseElement = document.getElementById('mark-false');
+let markTrueClickHandler = null;
+let markFalseClickHandler = null;
 
 
 async function displayPointInfo(point_id, latlng) {
@@ -41,8 +43,8 @@ async function displayPointInfo(point_id, latlng) {
       alreadyMarkedTextElement.style.display = "none";
       buttonsContainerElement.style.display = "flex";
 
-      addButtonEventListener(markTrueElement, point_id, latlng, true);
-      addButtonEventListener(markFalseElement, point_id, latlng, false);
+      markTrueClickHandler = addButtonEventListener(markTrueElement, point_id, latlng, true);
+      markFalseClickHandler = addButtonEventListener(markFalseElement, point_id, latlng, false);
     }
 
     // Display info div
@@ -71,8 +73,7 @@ async function addButtonEventListener(Button, point_id, latlng, markedTrue) {
     apiURL += 'markfalse';
   }
 
-  Button.addEventListener('click', function () {
-    // Send a POST request to API endpoint
+  const clickHandler = function () {
     fetch(apiURL, {
       method: 'POST',
       headers: {
@@ -85,22 +86,35 @@ async function addButtonEventListener(Button, point_id, latlng, markedTrue) {
     })
       .then(response => response.json())
       .then(data => {
-        console.log('Point succesfully marked', data);
+        console.log('Point successfully marked', data);
         hidePointInfo();
         displayPointInfo(point_id, latlng);
       })
       .catch(error => {
         console.error('Error in point marking', error);
       });
-  });
+  };
+
+  Button.addEventListener('click', clickHandler);
+  return clickHandler;
 }
 
-// Function to hide the information about the clicked point
 function hidePointInfo() {
-  // Adjust the height of the map container back to 100%
+  removeEventListenersInfobar();
   map.getContainer().style.height = `100%`;
   map.invalidateSize();
 
-  // Hide info div
-  displayMenuElement('default')
+  displayMenuElement('default');
+}
+
+function removeEventListenersInfobar() {
+  if (markTrueClickHandler) {
+    markTrueElement.removeEventListener('click', markTrueClickHandler);
+    markTrueClickHandler = null;
+  }
+
+  if (markFalseClickHandler) {
+    markFalseElement.removeEventListener('click', markFalseClickHandler);
+    markFalseClickHandler = null;
+  }
 }

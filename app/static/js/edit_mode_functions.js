@@ -3,6 +3,8 @@ const addPointButtonElement = document.getElementById('add-point-button');
 const dontAddPointButtonElement = document.getElementById('dont-add-point-button');
 let tempMarker = null;
 const newBlokkeringIcon = createNewBlokkeringIcon();
+let addPointClickHandler = null;
+let dontAddPointClickHandler = null;
 
 function toggleReportMode(on) {
   console.log(`report mode toggled: ${on}`);
@@ -23,13 +25,18 @@ function createBlokkage(latlng) {
 }
 
 function showConfirmationMenu(latlng) {
-  addPointButtonElement.addEventListener('click', function () {
-    addPointToDatabase(latlng);
-  });
+  removeEventListeners();
 
-  dontAddPointButtonElement.addEventListener('click', function () {
+  addPointClickHandler = function () {
+    addPointToDatabase(latlng);
+  };
+
+  dontAddPointClickHandler = function () {
     closeEditMode();
-  });
+  };
+
+  addPointButtonElement.addEventListener('click', addPointClickHandler);
+  dontAddPointButtonElement.addEventListener('click', dontAddPointClickHandler);
 
   displayMenuElement('new-point-confirmation-menu');
 }
@@ -56,6 +63,16 @@ function addPointToDatabase(latlng) {
     .catch(error => {
       console.error('Error:', error);
     });
+}
+
+function removeEventListeners() {
+  if (addPointClickHandler) {
+    addPointButtonElement.removeEventListener('click', addPointClickHandler);
+  }
+
+  if (dontAddPointClickHandler) {
+    dontAddPointButtonElement.removeEventListener('click', dontAddPointClickHandler);
+  }
 }
 
 function closeEditMode() {
