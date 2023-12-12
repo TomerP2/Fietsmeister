@@ -1,5 +1,6 @@
 // Set some global variables
 let editModeEnabled = false;
+let temporaryPointActive = false;
 let blokkagesLayer = null;
 let map = null;
 let userInfo = null;
@@ -26,7 +27,7 @@ async function main(){
   addOrUpdateBlokkagesLayer();
   
   map.on("click", function (e) {
-    if (editModeEnabled) {
+    if (editModeEnabled && !temporaryPointActive) {
       createBlokkage(e.latlng);
     }
   });

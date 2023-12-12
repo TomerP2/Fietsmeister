@@ -19,6 +19,7 @@ function toggleEditMode(on) {
 
 function createBlokkage(latlng) {
   tempMarker = L.marker(latlng, { icon: newBlokkeringIcon }).addTo(map);
+  temporaryPointActive = true;
   map.setView(latlng, 18);
   showConfirmationMenu(latlng);
 }
@@ -26,7 +27,6 @@ function createBlokkage(latlng) {
 function showConfirmationMenu(latlng) {
   addPointButtonElement.addEventListener('click', function () {
     addPointToDatabase(latlng);
-    closeEditMode();
   });
 
   dontAddPointButtonElement.addEventListener('click', function () {
@@ -53,6 +53,7 @@ function addPointToDatabase(latlng) {
     .then(response => response.json())
     .then(data => {
       console.log('Server response:', data);
+      closeEditMode();
     })
     .catch(error => {
       console.error('Error:', error);
@@ -63,5 +64,6 @@ function closeEditMode() {
   map.removeLayer(tempMarker);
   newPointConfirmationMenuElement.classList.remove('move-up');
   toggleEditMode(false);
+  temporaryPointActive = false;
   addOrUpdateBlokkagesLayer();
 }
