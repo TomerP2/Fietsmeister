@@ -8,24 +8,23 @@ const basemapUrl = 'https://service.pdok.nl/brt/achtergrondkaart/wmts/v2_0/paste
 const BlokkeringIconGroot = createBlokkeringIcon();
 const reportButtonElement = document.getElementById('report-button');
 const reportTextElement = document.getElementById('report-text');
-const newPointConfirmationElement = document.getElementById('new-point-confirmation');
 
 
 async function main(){
   map = L.map("map").setView([51.6951, 5.333135], 16);
-
+  
   userInfo = await getCurrentUserInfo();
-
+  
   getBasemap().addTo(map);
-
+  
   reportButtonElement.addEventListener('click', function(){toggleEditMode(true)})
-
+  
   map.locate({ setView: true });
-
+  
   addOrUpdateBlokkagesLayer();
-
+  
   map.on("click", function (e) {
-    createBlokkage(e.latlng)
+    createBlokkage(e.latlng, editModeEnabled, map, document)
   });
 }
 
@@ -63,11 +62,11 @@ async function addOrUpdateBlokkagesLayer() {
   try {
     const response = await fetch(wfsUrl);
     const data = await response.json();
-
+    
     if (blokkagesLayer) {
       map.removeLayer(blokkagesLayer);
     }
-
+    
     blokkagesLayer = createLayerFromJson(data);
     blokkagesLayer.addTo(map);
   } catch (error) {
@@ -80,23 +79,28 @@ function createLayerFromJson(data) {
     pointToLayer: function (feature, latlng) {
       const marker = L.marker(latlng, { icon: BlokkeringIconGroot });
       const point_id = feature.id.split('.')[1]
-
+      
       marker.on('click', function () {
         displayPointInfo(point_id, userInfo, latlng, map);
       });
-
+      
       return marker;
     },
   });
 }
 
-function createBlokkage(latlng) {
+function createBlokkage(latlng, editModeEnabled, map, document) {
+  const newPointConfirmationElement = document.getElementById('new-point-confirmation');
+  const addPointButtonElement = document.getElementById('add-point-button');
+  const dontAddPointButtonElement = document.getElementById('dont-add-point-button');
+  const newBlokkeringIcon = createNewBlokkeringIcon();
+
   if (!(editModeEnabled)) {
     console.log('edit mode not enabled. Won\'t add a new blokkage');
     return;
   }
-
-  var tempMarker = L.marker(latlng, { icon: BlokkeringIconGroot }).addTo(map);
+  
+  var tempMarker = L.marker(latlng, { icon: newBlokkeringIcon }).addTo(map);
   map.setView(latlng, 18)
   
   var checkMarkerInterval = setInterval(function () {
@@ -107,8 +111,6 @@ function createBlokkage(latlng) {
   }, 200);
   
   function showConfirmation() {
-    const addPointButtonElement = document.getElementById('add-point-button');
-    const dontAddPointButtonElement = document.getElementById('dont-add-point-button');
     
     addPointButtonElement.addEventListener('click', function () {
       addPointToDatabase(latlng);
@@ -151,6 +153,15 @@ function createBlokkage(latlng) {
     toggleEditMode(false);
     addOrUpdateBlokkagesLayer();
   }
+
+  function createNewBlokkeringIcon() {
+    return L.icon({
+      iconUrl: "/static/new_blokkering_icon.png",
+      iconSize: [30, 30],
+      iconAnchor: [15, 15],
+    });
+  }
+  
 }
 
 main();
