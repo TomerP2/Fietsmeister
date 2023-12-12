@@ -37,3 +37,30 @@ function createIcon(iconURL) {
     iconAnchor: [15, 15],
   });
 }
+
+function displayMenuElement(menu) {
+  reportButtonElement.style.display = 'none';
+  reportTextElement.style.display = 'none';
+  cancelReportButtonElement.style.display = 'none';
+  infoElement.classList.remove('move-up');
+  newPointConfirmationMenuElement.classList.remove('move-up');
+
+  switch(menu){
+    case 'default':
+      reportButtonElement.style.display = 'block';
+      break;
+    
+    case 'report-mode':
+      reportTextElement.style.display = 'block';
+      cancelReportButtonElement.style.display = 'block';
+      break;
+    
+    case 'info-menu':
+      infoElement.classList.add('move-up');
+      break;
+    
+    case 'new-point-confirmation-menu':
+      newPointConfirmationMenuElement.classList.add('move-up');
+      break;
+  }
+}

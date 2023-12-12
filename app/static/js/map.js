@@ -1,5 +1,5 @@
 // Set some global variables
-let editModeEnabled = false;
+let reportModeEnabled = false;
 let temporaryPointActive = false;
 let blokkagesLayer = null;
 let map = null;
@@ -10,6 +10,7 @@ const BlokkeringIconGroot = createBlokkeringIcon();
 const reportButtonElement = document.getElementById('report-button');
 const reportTextElement = document.getElementById('report-text');
 const cancelReportButtonElement = document.getElementById('cancel-report-button');
+const infoElement = document.getElementById('info')
 
 
 async function main(){
@@ -20,11 +21,11 @@ async function main(){
   getBasemap().addTo(map);
   
   reportButtonElement.addEventListener('click', function(){
-    toggleEditMode(true);
+    toggleReportMode(true);
   });
 
   cancelReportButtonElement.addEventListener('click', function() {
-    toggleEditMode(false);
+    toggleReportMode(false);
   });
   
   map.locate({ setView: true });
@@ -32,7 +33,7 @@ async function main(){
   addOrUpdateBlokkagesLayer();
   
   map.on("click", function (e) {
-    if (editModeEnabled && !temporaryPointActive) {
+    if (reportModeEnabled && !temporaryPointActive) {
       createBlokkage(e.latlng);
     }
   });

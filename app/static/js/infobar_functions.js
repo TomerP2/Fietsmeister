@@ -46,8 +46,7 @@ async function displayPointInfo(point_id, latlng) {
     }
 
     // Display info div
-    const infoElement = document.getElementById("info");
-    infoElement.classList.add('move-up'); // Play animation
+    displayMenuElement('info-menu');
   } catch (error) {
     console.error("Error fetching or processing feature info:", error);
   }
@@ -103,6 +102,5 @@ function hidePointInfo() {
   map.invalidateSize();
 
   // Hide info div
-  const infoElement = document.getElementById("info");
-  infoElement.classList.remove("move-up");
+  displayMenuElement('default')
 }

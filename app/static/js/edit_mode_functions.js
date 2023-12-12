@@ -4,18 +4,14 @@ const dontAddPointButtonElement = document.getElementById('dont-add-point-button
 let tempMarker = null;
 const newBlokkeringIcon = createNewBlokkeringIcon();
 
-function toggleEditMode(on) {
+function toggleReportMode(on) {
   console.log(`report mode toggled: ${on}`);
   if (on) {
-    editModeEnabled = true;
-    reportButtonElement.style.display = 'none';
-    reportTextElement.style.display = 'block';
-    cancelReportButtonElement.style.display = 'block';
+    reportModeEnabled = true;
+    displayMenuElement('report-mode')
   } else{
-    editModeEnabled = false;
-    reportButtonElement.style.display = 'block';
-    reportTextElement.style.display = 'none';
-    cancelReportButtonElement.style.display = 'none';
+    reportModeEnabled = false;
+    displayMenuElement('default')
   }
 }
 
@@ -35,7 +31,7 @@ function showConfirmationMenu(latlng) {
     closeEditMode();
   });
 
-  newPointConfirmationMenuElement.classList.add('move-up');
+  displayMenuElement('new-point-confirmation-menu');
 }
 
 function addPointToDatabase(latlng) {
@@ -64,8 +60,7 @@ function addPointToDatabase(latlng) {
 
 function closeEditMode() {
   map.removeLayer(tempMarker);
-  newPointConfirmationMenuElement.classList.remove('move-up');
-  toggleEditMode(false);
+  toggleReportMode(false);
   temporaryPointActive = false;
   addOrUpdateBlokkagesLayer();
 }
