@@ -8,7 +8,7 @@ const basemapUrl = 'https://service.pdok.nl/brt/achtergrondkaart/wmts/v2_0/paste
 const BlokkeringIconGroot = createBlokkeringIcon();
 const reportButtonElement = document.getElementById('report-button');
 const reportTextElement = document.getElementById('report-text');
-const addPointConfirmationElement = document.getElementById('new-point-confirmation')
+const newPointConfirmationElement = document.getElementById('new-point-confirmation');
 
 
 async function main(){
@@ -98,50 +98,58 @@ function createBlokkage(latlng) {
 
   var tempMarker = L.marker(latlng, { icon: BlokkeringIconGroot }).addTo(map);
   map.setView(latlng, 18)
-
+  
   var checkMarkerInterval = setInterval(function () {
     if (map.hasLayer(tempMarker)) {
       clearInterval(checkMarkerInterval);
       showConfirmation();
     }
   }, 200);
-
+  
   function showConfirmation() {
-    var userResponse = window.confirm('Place point here?');
-
-    if (userResponse) {
-      var url = 'http://127.0.0.1:8080/api/createblokkage';
-      var data = {
-        lat: latlng.lat,
-        lng: latlng.lng,
-        user_id: userInfo.id
-      };
-
-      fetch(url, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data),
-      })
-      .then(response => response.json())
-      .then(data => {
-        console.log('Server response:', data);
-        map.removeLayer(tempMarker);
-        toggleEditMode(false);
-        addOrUpdateBlokkagesLayer();
-      })
-      .catch(error => {
-        console.error('Error:', error);
-        map.removeLayer(tempMarker);
-        toggleEditMode(false);
-        addOrUpdateBlokkagesLayer();
-      });
-    } else {
-      map.removeLayer(tempMarker);
-      toggleEditMode(false);
-      addOrUpdateBlokkagesLayer();
-    }
+    const addPointButtonElement = document.getElementById('add-point-button');
+    const dontAddPointButtonElement = document.getElementById('dont-add-point-button');
+    
+    addPointButtonElement.addEventListener('click', function () {
+      addPointToDatabase(latlng);
+      closeEditMode();
+    });
+    
+    dontAddPointButtonElement.addEventListener('click', function() {
+      closeEditMode();
+    })
+    
+    newPointConfirmationElement.classList.add('move-up');
+  }
+  
+  function addPointToDatabase(latlng) {
+    var url = 'http://127.0.0.1:8080/api/createblokkage';
+    var data = {
+      lat: latlng.lat,
+      lng: latlng.lng,
+      user_id: userInfo.id
+    };
+    fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data),
+    })
+    .then(response => response.json())
+    .then(data => {
+      console.log('Server response:', data);
+    })
+    .catch(error => {
+      console.error('Error:', error);
+    });
+  }
+  
+  function closeEditMode() {
+    map.removeLayer(tempMarker);
+    newPointConfirmationElement.classList.remove('move-up');
+    toggleEditMode(false);
+    addOrUpdateBlokkagesLayer();
   }
 }
 
