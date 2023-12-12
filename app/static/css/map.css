@@ -10,6 +10,10 @@
     left: 50%;
     transform: translateX(-50%);
     z-index: 1; /* Set a higher z-index to be infront of the map */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3vw;
 }
 
 #report-button{
@@ -18,17 +22,26 @@
     background-color: var(--accent);
     padding: 1.5vw 5vw 1.5vw 5vw;
     box-shadow: 0 -5px 20px rgba(0, 0, 0, 0.2);
-    /* display: none;temp */
 }
 
 #report-text{
     text-align: center;
     border-radius: 25px;
-    background-color: var(--main);
+    background-color: rgb(254, 254, 254, 0.9);
     color: var(--accent);
     font-size: 15pt;
     padding: 1.5vw 5vw 1.5vw 5vw;
     width: 60vw;
     box-shadow: 0 -5px 20px rgba(0, 0, 0, 0.2);
     display: none;
+}
+
+#cancel-report-button{
+    text-align: center;
+    border-radius: 25px;
+    background-color: var(--accent);
+    padding: 1.5vw 5vw 1.5vw 5vw;
+    box-shadow: 0 -5px 20px rgba(0, 0, 0, 0.2);
+    display: none;
+    width: 24vw;
 }

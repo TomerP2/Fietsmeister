@@ -10,10 +10,12 @@ function toggleEditMode(on) {
     editModeEnabled = true;
     reportButtonElement.style.display = 'none';
     reportTextElement.style.display = 'block';
+    cancelReportButtonElement.style.display = 'block';
   } else{
     editModeEnabled = false;
     reportButtonElement.style.display = 'block';
     reportTextElement.style.display = 'none';
+    cancelReportButtonElement.style.display = 'none';
   }
 }
 

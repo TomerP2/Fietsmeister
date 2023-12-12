@@ -9,6 +9,7 @@ const basemapUrl = 'https://service.pdok.nl/brt/achtergrondkaart/wmts/v2_0/paste
 const BlokkeringIconGroot = createBlokkeringIcon();
 const reportButtonElement = document.getElementById('report-button');
 const reportTextElement = document.getElementById('report-text');
+const cancelReportButtonElement = document.getElementById('cancel-report-button');
 
 
 async function main(){
@@ -20,6 +21,10 @@ async function main(){
   
   reportButtonElement.addEventListener('click', function(){
     toggleEditMode(true);
+  });
+
+  cancelReportButtonElement.addEventListener('click', function() {
+    toggleEditMode(false);
   });
   
   map.locate({ setView: true });
