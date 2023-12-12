@@ -1,15 +1,21 @@
-// Function to display information about the clicked point
-async function displayPointInfo(point_id, userInfo, latlng, map) {
-  // Adjust the height of the map container to x% of the viewport height
-  const newHeight = window.innerHeight * 0.75;
-  map.getContainer().style.height = `${newHeight}px`;
-  map.invalidateSize();
+const closeButtonElement = document.getElementById("close-info-button");
+const postedByTextElement = document.getElementById("posted-by-text");
+const markedTrueTextElement = document.getElementById("marked-true-text");
+const markedFalseTextElement = document.getElementById("marked-false-text");
+const buttonsContainerElement = document.getElementById('mark-true-false-buttons-container');
+const alreadyMarkedTextElement = document.getElementById('already-marked-text');
+const markTrueElement = document.getElementById('mark-true');
+const markFalseElement = document.getElementById('mark-false');
+const apiURL = 'http://127.0.0.1:8080/api/';
+
+
+async function displayPointInfo(point_id, latlng) {
+  changeMapSize();
 
   // Center the map on the clicked marker and zoom in
   map.setView(latlng, 18);
 
   // Add event listener to 'close' button
-  const closeButtonElement = document.getElementById("close-info-button");
   closeButtonElement.addEventListener('click', function () {
     hidePointInfo(map);
   });
@@ -24,32 +30,19 @@ async function displayPointInfo(point_id, userInfo, latlng, map) {
     }
 
     const featureInfo = await response.json();
-
-    // Update info div based on fetched info
-    const postedByTextElement = document.getElementById("posted-by-text");
     postedByTextElement.textContent = `${featureInfo.days_ago} dagen geleden gepost door ${featureInfo.username}`;
-
-    const markedTrueTextElement = document.getElementById("marked-true-text");
     markedTrueTextElement.textContent = `${featureInfo.marked_true} keer gemarkeerd als kloppend`;
-
-    const markedFalseTextElement = document.getElementById("marked-false-text");
     markedFalseTextElement.textContent = `${featureInfo.marked_false} keer gemarkeerd als niet kloppend`;
 
-    // Create the 'mark true or false' section
-    const buttonsContainerElement = document.getElementById('mark-true-false-buttons-container');
-    const alreadyMarkedTextElement = document.getElementById('already-marked-text');
-
-    if (userInfo.marked_points.includes(parseInt(point_id))) {
+    if (userAlreadyMarkedFeature(point_id)) {
       alreadyMarkedTextElement.style.display = "inline";
       buttonsContainerElement.style.display = "none";
     } else {
       alreadyMarkedTextElement.style.display = "none";
       buttonsContainerElement.style.display = "flex";
 
-      const markTrueElement = document.getElementById('mark-true');
-      addButtonEventListener(markTrueElement, point_id, true, map, latlng, userInfo);
-      const markFalseElement = document.getElementById('mark-false');
-      addButtonEventListener(markFalseElement, point_id, false, map, latlng);
+      addButtonEventListener(markTrueElement, point_id, latlng, true);
+      addButtonEventListener(markFalseElement, point_id, latlng, false);
     }
 
     // Display info div
@@ -60,8 +53,17 @@ async function displayPointInfo(point_id, userInfo, latlng, map) {
   }
 }
 
-async function addButtonEventListener(Button, point_id, markedTrue, map, latlng, userInfo) {
-  let apiURL = 'http://127.0.0.1:8080/api/';
+function changeMapSize() {
+  const newHeight = window.innerHeight * 0.75;
+  map.getContainer().style.height = `${newHeight}px`;
+  map.invalidateSize();
+}
+
+function userAlreadyMarkedFeature(point_id) {
+  return userInfo.marked_points.includes(parseInt(point_id));
+}
+
+async function addButtonEventListener(Button, point_id, latlng, markedTrue) {
   if (markedTrue) {
     apiURL += 'marktrue';
   } else {
@@ -83,16 +85,17 @@ async function addButtonEventListener(Button, point_id, markedTrue, map, latlng,
       .then(response => response.json())
       .then(data => {
         console.log('Point succesfully marked', data);
-        hidePointInfo(map);
-        displayPointInfo(point_id, userInfo, latlng, map);
+        hidePointInfo();
+        displayPointInfo(point_id, latlng);
       })
       .catch(error => {
         console.error('Error in point marking', error);
       });
   });
 }
+
 // Function to hide the information about the clicked point
-function hidePointInfo(map) {
+function hidePointInfo() {
   // Adjust the height of the map container back to 100%
   map.getContainer().style.height = `100%`;
   map.invalidateSize();

@@ -18,15 +18,17 @@ async function main(){
   getBasemap().addTo(map);
   
   reportButtonElement.addEventListener('click', function(){
-    toggleEditMode(true)
-  })
+    toggleEditMode(true);
+  });
   
   map.locate({ setView: true });
   
   addOrUpdateBlokkagesLayer();
   
   map.on("click", function (e) {
-    createBlokkage(e.latlng, editModeEnabled)
+    if (editModeEnabled) {
+      createBlokkage(e.latlng);
+    }
   });
 }
 
@@ -39,13 +41,6 @@ function getBasemap() {
   });
 };
 
-function createBlokkeringIcon() {
-  return L.icon({
-    iconUrl: "/static/png/blokkering_icon_groot.png",
-    iconSize: [30, 30],
-    iconAnchor: [15, 15],
-  });
-}
 
 async function addOrUpdateBlokkagesLayer() {
   try {
@@ -70,9 +65,8 @@ function createLayerFromJson(data) {
       const point_id = feature.id.split('.')[1]
       
       marker.on('click', function () {
-        displayPointInfo(point_id, userInfo, latlng, map);
+        displayPointInfo(point_id, latlng);
       });
-      
       return marker;
     },
   });

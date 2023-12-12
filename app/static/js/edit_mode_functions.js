@@ -1,7 +1,8 @@
-const newPointConfirmationElement = document.getElementById('new-point-confirmation');
+const newPointConfirmationMenuElement = document.getElementById('new-point-confirmation-menu');
 const addPointButtonElement = document.getElementById('add-point-button');
 const dontAddPointButtonElement = document.getElementById('dont-add-point-button');
 let tempMarker = null;
+const newBlokkeringIcon = createNewBlokkeringIcon();
 
 function toggleEditMode(on) {
   console.log(`report mode toggled: ${on}`);
@@ -16,17 +17,9 @@ function toggleEditMode(on) {
   }
 }
 
-function createBlokkage(latlng, editModeEnabled) {
-  const newBlokkeringIcon = createNewBlokkeringIcon();
-
-  if (!(editModeEnabled)) {
-    console.log('edit mode not enabled. Won\'t add a new blokkage');
-    return;
-  }
-
+function createBlokkage(latlng) {
   tempMarker = L.marker(latlng, { icon: newBlokkeringIcon }).addTo(map);
   map.setView(latlng, 18);
-
   showConfirmationMenu(latlng);
 }
 
@@ -40,7 +33,7 @@ function showConfirmationMenu(latlng) {
     closeEditMode();
   });
 
-  newPointConfirmationElement.classList.add('move-up');
+  newPointConfirmationMenuElement.classList.add('move-up');
 }
 
 function addPointToDatabase(latlng) {
@@ -68,15 +61,7 @@ function addPointToDatabase(latlng) {
 
 function closeEditMode() {
   map.removeLayer(tempMarker);
-  newPointConfirmationElement.classList.remove('move-up');
+  newPointConfirmationMenuElement.classList.remove('move-up');
   toggleEditMode(false);
   addOrUpdateBlokkagesLayer();
-}
-
-function createNewBlokkeringIcon() {
-  return L.icon({
-    iconUrl: "/static/png/new_blokkering_icon.png",
-    iconSize: [30, 30],
-    iconAnchor: [15, 15],
-  });
 }
