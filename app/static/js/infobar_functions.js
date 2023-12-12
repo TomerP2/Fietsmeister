@@ -6,7 +6,6 @@ const buttonsContainerElement = document.getElementById('mark-true-false-buttons
 const alreadyMarkedTextElement = document.getElementById('already-marked-text');
 const markTrueElement = document.getElementById('mark-true');
 const markFalseElement = document.getElementById('mark-false');
-const apiURL = 'http://127.0.0.1:8080/api/';
 
 
 async function displayPointInfo(point_id, latlng) {
@@ -34,7 +33,8 @@ async function displayPointInfo(point_id, latlng) {
     markedTrueTextElement.textContent = `${featureInfo.marked_true} keer gemarkeerd als kloppend`;
     markedFalseTextElement.textContent = `${featureInfo.marked_false} keer gemarkeerd als niet kloppend`;
 
-    if (userAlreadyMarkedFeature(point_id)) {
+    userAlreadyMarkedFeature = await hasUserAlreadyMarkedFeature(point_id)
+    if (userAlreadyMarkedFeature) {
       alreadyMarkedTextElement.style.display = "inline";
       buttonsContainerElement.style.display = "none";
     } else {
@@ -59,11 +59,13 @@ function changeMapSize() {
   map.invalidateSize();
 }
 
-function userAlreadyMarkedFeature(point_id) {
+async function hasUserAlreadyMarkedFeature(point_id) {
+  userInfo = await getCurrentUserInfo() // Update current user info
   return userInfo.marked_points.includes(parseInt(point_id));
 }
 
-async function addButtonEventListener(Button, point_id, latlng, markedTrue) {
+async function addButtonEventListener(Button, point_id, latlng, markedTrue) {  
+  let apiURL = 'http://127.0.0.1:8080/api/';
   if (markedTrue) {
     apiURL += 'marktrue';
   } else {
