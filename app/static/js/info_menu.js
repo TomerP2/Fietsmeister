@@ -2,8 +2,8 @@
 const markTrueButton = document.getElementById('mark-true');
 const markFalseButton = document.getElementById('mark-false');
 
-// Set some global click handler pointers.
-let buttonHandlers = {
+// Create an object to store the click handlers of the 'mark true' and 'mark false' buttons.
+let buttonClickHandlers = {
   markTrue: null,
   markFalse: null
 };
@@ -48,8 +48,8 @@ async function displayInfoMenu(point_id, latlng) {
       buttonsContainerElement.style.display = "flex";
 
       // Remove old event listeners from mark buttons and add new event listeners.
-      await updateButtonEventListener(markTrueButton, 'markTrue', point_id, latlng, true);
-      await updateButtonEventListener(markFalseButton, 'markFalse', point_id, latlng, false);
+      await updateButtonEventListener(markTrueButton, point_id, latlng, true);
+      await updateButtonEventListener(markFalseButton, point_id, latlng, false);
     }
 
     // Display info div.
@@ -61,12 +61,18 @@ async function displayInfoMenu(point_id, latlng) {
     console.error("Error fetching or processing feature info:", error);
   }
 
-  async function updateButtonEventListener(buttonElement, handlerKey, point_id, latlng, markedTrue) {  
+  async function updateButtonEventListener(buttonElement, point_id, latlng, markedTrue) {  
 
     // Remove old listener if it exists.
-    if (buttonHandlers[handlerKey]) {
-      buttonElement.removeEventListener('click', buttonHandlers[handlerKey]);
-      buttonHandlers[handlerKey] = null;
+    if (markedTrue) {
+      handlerKey = 'markTrue'
+    } else {
+      handlerKey = 'markFalse'
+    }
+
+    if (buttonClickHandlers[handlerKey]) {
+      buttonElement.removeEventListener('click', buttonClickHandlers[handlerKey]);
+      buttonClickHandlers[handlerKey] = null;
     }
 
     // Get API url.
@@ -80,7 +86,7 @@ async function displayInfoMenu(point_id, latlng) {
     }
   
     // Create the click Handler.
-    buttonHandlers[handlerKey] = function () {
+    buttonClickHandlers[handlerKey] = function () {
       // Prepare the information about the new marking to be posted to the API.
       let markingInfo = {
           'blokkage_id': point_id,
@@ -109,7 +115,7 @@ async function displayInfoMenu(point_id, latlng) {
         });
     };
   
-    // Add event listener to button and return the click handler for future removal.
-    buttonElement.addEventListener('click', buttonHandlers[handlerKey]);
+    // Add event listener to button.
+    buttonElement.addEventListener('click', buttonClickHandlers[handlerKey]);
   }
 }
