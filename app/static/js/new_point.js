@@ -75,7 +75,7 @@ function closeEditMenu() {
   // Remove the preview point created to display where real point would go.
   map.removeLayer(previewMarker);
 
-  // Toggle report mode back off
+  // Go back to default page
   display.switch_to('default');
   
   // Update blokkages layer to include new point if it was added.

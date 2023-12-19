@@ -19,15 +19,6 @@ async function main(){
     attribution: 'Kaartgegevens &copy; <a href="https://www.kadaster.nl">Kadaster</a>'
   }).addTo(map);
 
-  // Add event listeners to report/cancel report buttons
-  document.getElementById('report-button').addEventListener('click', function(){
-    display.switch_to('report-mode');
-  });
-
-  document.getElementById('cancel-report-button').addEventListener('click', function() {
-    display.switch_to('default');
-  });
-
   // Asks user for location and zooms in if user gives location
   map.locate({ setView: true });
 
@@ -38,7 +29,7 @@ async function main(){
   map.on("click", function (e) {
 
     // Check if the user is in report-mode. If they are, try to add new point.
-    if (display.state == 'report-mode') {
+    if (display.state == 'default') {
       maybeAddNewPoint(e.latlng);
     } 
 

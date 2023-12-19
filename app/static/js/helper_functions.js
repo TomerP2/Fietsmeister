@@ -40,9 +40,7 @@ function createIcon(iconURL) {
 class Display {
   constructor() {
     // Get necessary HTML elements during initialization.
-    this.reportButtonElement = document.getElementById('report-button');
     this.reportTextElement = document.getElementById('report-text');
-    this.cancelReportButtonElement = document.getElementById('cancel-report-button');
     this.infoElement = document.getElementById('info');
     this.newPointConfirmationMenuElement = document.getElementById('new-point-confirmation-menu');
 
@@ -52,9 +50,7 @@ class Display {
 
   switch_to(menu) {
     // Hide all elements.
-    this.reportButtonElement.style.display = 'none';
     this.reportTextElement.style.display = 'none';
-    this.cancelReportButtonElement.style.display = 'none';
     this.infoElement.classList.remove('move-up');
     this.newPointConfirmationMenuElement.classList.remove('move-up');
 
@@ -64,13 +60,8 @@ class Display {
         // Set map height to fullscreen.
         this._scale_map_container(100)
 
-        // Show 'report' button.
-        this.reportButtonElement.style.display = 'block';
-        break;
-
-      case 'report-mode':
+        // Show 'report' text.
         this.reportTextElement.style.display = 'block';
-        this.cancelReportButtonElement.style.display = 'block';
         break;
 
       case 'info-menu':
