@@ -1,4 +1,4 @@
-// Function to get the ID of currently logged in user
+// Function to get the ID of currently logged in user.
 async function getCurrentUserInfo() {
   try {
     const response = await fetch('/api/currentuserinfo/', {
@@ -20,7 +20,7 @@ async function getCurrentUserInfo() {
   }
 }
 
-// Functions to get different blokkering icons
+// Functions to get different blokkering icons.
 function getBlokkeringIcon() {
   return createIcon("/static/png/blokkering_icon_groot.png");
 }
@@ -39,14 +39,14 @@ function createIcon(iconURL) {
 
 class Display {
   constructor() {
-    // Get necessary HTML elements during instantiation.
+    // Get necessary HTML elements during initialization.
     this.reportButtonElement = document.getElementById('report-button');
     this.reportTextElement = document.getElementById('report-text');
     this.cancelReportButtonElement = document.getElementById('cancel-report-button');
     this.infoElement = document.getElementById('info');
     this.newPointConfirmationMenuElement = document.getElementById('new-point-confirmation-menu');
 
-    // Create a variable to keep track of what is being displayed
+    // Create a variable to keep track of what is being displayed.
     this.state = 'default';
   }
 
