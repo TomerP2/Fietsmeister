@@ -59,15 +59,6 @@ class Display {
       case 'default':
         // Set map height to fullscreen.
         this._scale_map_container(100)
-
-        // Show 'report' text.
-        this.reportTextElement.classList.add('move-up');
-
-        // Hide 'report' text after some time
-        setTimeout(() => {
-          this.reportTextElement.classList.remove('move-up');
-        }, 3000); 
-
         break;
 
       case 'info-menu':

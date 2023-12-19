@@ -15,7 +15,7 @@
     box-shadow: 0 -5px 20px rgba(0, 0, 0, 0.2);
 
     transform: translateY(100%); /* Initial position outside the viewport */
-    transition: transform 0.1s ease;
+    transition: transform 0.2s ease;
 }
 
 #info.move-up {

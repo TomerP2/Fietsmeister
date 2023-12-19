@@ -25,6 +25,11 @@ async function main(){
   // Adds blokkages layer to map
   addOrUpdateBlokkagesLayer();
 
+  // Removes explanation about clicking on map after some time
+  setTimeout(() => {
+    document.getElementById('report-content-container').classList.remove('move-up');
+  }, 5000); 
+
   // Adds click handler to map to maybe add new blokkage if user confirms.
   map.on("click", function (e) {
 
@@ -44,8 +49,6 @@ async function main(){
     }
 
   });
-
-  display.switch_to('default');
 }
 
 async function addOrUpdateBlokkagesLayer() {
