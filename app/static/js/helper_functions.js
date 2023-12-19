@@ -40,7 +40,7 @@ function createIcon(iconURL) {
 class Display {
   constructor() {
     // Get necessary HTML elements during initialization.
-    this.reportTextElement = document.getElementById('report-text');
+    this.reportTextElement = document.getElementById('report-content-container');
     this.infoElement = document.getElementById('info');
     this.newPointConfirmationMenuElement = document.getElementById('new-point-confirmation-menu');
 
@@ -50,7 +50,7 @@ class Display {
 
   switch_to(menu) {
     // Hide all elements.
-    this.reportTextElement.style.display = 'none';
+    this.reportTextElement.classList.remove('move-up');
     this.infoElement.classList.remove('move-up');
     this.newPointConfirmationMenuElement.classList.remove('move-up');
 
@@ -61,7 +61,13 @@ class Display {
         this._scale_map_container(100)
 
         // Show 'report' text.
-        this.reportTextElement.style.display = 'block';
+        this.reportTextElement.classList.add('move-up');
+
+        // Hide 'report' text after some time
+        setTimeout(() => {
+          this.reportTextElement.classList.remove('move-up');
+        }, 3000); 
+
         break;
 
       case 'info-menu':

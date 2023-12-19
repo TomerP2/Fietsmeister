@@ -44,6 +44,8 @@ async function main(){
     }
 
   });
+
+  display.switch_to('default');
 }
 
 async function addOrUpdateBlokkagesLayer() {
