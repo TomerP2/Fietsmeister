@@ -3,49 +3,50 @@ let reportModeEnabled = false;
 let previewPointActive = false;
 let blokkagesLayer = null;
 const basemapUrl = 'https://service.pdok.nl/brt/achtergrondkaart/wmts/v2_0/pastel/EPSG:3857/{z}/{x}/{y}.png'
-const BlokkeringIconGroot = createBlokkeringIcon();
 const reportButtonElement = document.getElementById('report-button');
 const reportTextElement = document.getElementById('report-text');
 const cancelReportButtonElement = document.getElementById('cancel-report-button');
 const infoElement = document.getElementById('info')
+let userInfo = null;
+let map = null;
 
+async function main(){
+  // Create map
+  map = L.map("map").setView([51.6951, 5.333135], 16);
 
-// Create map
-let map = L.map("map").setView([51.6951, 5.333135], 16);
+  // Fetch user info from flask API
+  userInfo = await getCurrentUserInfo();
 
-// Fetch user info from flask API
-let userInfo = await getCurrentUserInfo();
+  // Create basemap and add to map
+  L.tileLayer(basemapUrl, {
+    minZoom: 6,
+    maxZoom: 19,
+    bounds: [[50.5, 3.25], [54, 7.6]],
+    attribution: 'Kaartgegevens &copy; <a href="https://www.kadaster.nl">Kadaster</a>'
+  }).addTo(map);
 
-// Create basemap and add to map
-L.tileLayer(basemapUrl, {
-  minZoom: 6,
-  maxZoom: 19,
-  bounds: [[50.5, 3.25], [54, 7.6]],
-  attribution: 'Kaartgegevens &copy; <a href="https://www.kadaster.nl">Kadaster</a>'
-}).addTo(map);
+  // Add event listeners to report/cancel report buttons
+  reportButtonElement.addEventListener('click', function(){
+    toggleReportMode(true);
+  });
 
-// Add event listeners to report/cancel report buttons
-reportButtonElement.addEventListener('click', function(){
-  toggleReportMode(true);
-});
+  cancelReportButtonElement.addEventListener('click', function() {
+    toggleReportMode(false);
+  });
 
-cancelReportButtonElement.addEventListener('click', function() {
-  toggleReportMode(false);
-});
+  // Asks user for location and zooms in if user gives location
+  map.locate({ setView: true });
 
-// Asks user for location and zooms in if user gives location
-map.locate({ setView: true });
+  // Adds blokkages layer to map
+  addOrUpdateBlokkagesLayer();
 
-// Adds blokkages layer to map
-addOrUpdateBlokkagesLayer();
-
-// Adds click handler to map to maybe add new blokkage if user confirms.
-map.on("click", function (e) {
-  if (reportModeEnabled && !previewPointActive) {
-    maybeAddNewPoint(e.latlng);
-  }
-});
-
+  // Adds click handler to map to maybe add new blokkage if user confirms.
+  map.on("click", function (e) {
+    if (reportModeEnabled && !previewPointActive) {
+      maybeAddNewPoint(e.latlng);
+    }
+  });
+}
 
 async function addOrUpdateBlokkagesLayer() {
   try {
@@ -62,7 +63,7 @@ async function addOrUpdateBlokkagesLayer() {
     // add updated blokkkageslayer
     blokkagesLayer = L.geoJSON(data, {
       pointToLayer: function (feature, latlng) {
-        const marker = L.marker(latlng, { icon: BlokkeringIconGroot });
+        const marker = L.marker(latlng, { icon: getBlokkeringIcon() });
         const point_id = feature.id.split('.')[1]
         
         // Add click handler to display point info
@@ -79,3 +80,5 @@ async function addOrUpdateBlokkagesLayer() {
     console.error("Error fetching or processing GeoJSON:", error);
   }
 }
+
+main();

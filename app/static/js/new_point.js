@@ -20,7 +20,7 @@ function toggleReportMode(on) {
 
 
 // Function to maybe create a new blokkage if user confirms point placement.
-function maybeAddNewPoint(latlng) {
+async function maybeAddNewPoint(latlng) {
   
   // Create preview marker to show user where point would be added.
   let previewMarker = L.marker(latlng, { icon: getNewBlokkeringIcon() }).addTo(map);
@@ -36,6 +36,9 @@ function maybeAddNewPoint(latlng) {
   if (dontAddPointClickHandler) {
     dontAddPointButtonElement.removeEventListener('click', dontAddPointClickHandler);
   }
+
+  // Get user-info to send user-id to API
+  let userInfo = await getCurrentUserInfo()
 
   // Create new click handler for 'add point' button.
   addPointClickHandler = function () {

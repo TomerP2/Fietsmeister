@@ -38,8 +38,11 @@ async function displayInfoMenu(point_id, latlng) {
     const alreadyMarkedTextElement = document.getElementById('already-marked-text');
     const buttonsContainerElement = document.getElementById('mark-true-false-buttons-container');
 
+    // Refresh user info. This is done to check if user marked this point just now.
+    userInfo = await getCurrentUserInfo();
+
     // Check if ID of current point is already in user's marked point. Meaning user already marked point.
-    if (await getCurrentUserInfo().marked_points.includes(parseInt(point_id))) {
+    if (userInfo.marked_points.includes(parseInt(point_id))) {
       // If true, user is not allowed to mark point. Hide mark buttons and display text to inform user they already marked point.
       alreadyMarkedTextElement.style.display = "inline";
       buttonsContainerElement.style.display = "none";
@@ -72,16 +75,19 @@ async function displayInfoMenu(point_id, latlng) {
   
     // Create the click Handler.
     const clickHandler = function () {
-      // Fetch the data from the API.
+      // Prepare the information about the new marking to be posted to the API.
+      let markingInfo = {
+          'blokkage_id': point_id,
+          'user_id': userInfo.id,
+      }
+
+      // Post the prepared data to the API.
       fetch(apiURL, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({
-          'blokkage_id': point_id,
-          'user_id': userInfo.id,
-        })
+        body: JSON.stringify(markingInfo)
       })
         .then(response => response.json())
         .then(data => {
