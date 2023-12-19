@@ -18,7 +18,7 @@ async function main(){
   
   userInfo = await getCurrentUserInfo();
   
-  // Create basemap
+  // Create basemap and add to map
   L.tileLayer(basemapUrl, {
     minZoom: 6,
     maxZoom: 19,
@@ -26,6 +26,7 @@ async function main(){
     attribution: 'Kaartgegevens &copy; <a href="https://www.kadaster.nl">Kadaster</a>'
   }).addTo(map);
   
+  // Add event listeners to report/cancel report buttons
   reportButtonElement.addEventListener('click', function(){
     toggleReportMode(true);
   });
@@ -34,10 +35,13 @@ async function main(){
     toggleReportMode(false);
   });
   
+  // Asks user for location and zooms in if user gives location
   map.locate({ setView: true });
   
+  // Adds blokkages layer to map
   addOrUpdateBlokkagesLayer();
   
+  // Adds click handler to map to create new blokkage
   map.on("click", function (e) {
     if (reportModeEnabled && !temporaryPointActive) {
       createBlokkage(e.latlng);
