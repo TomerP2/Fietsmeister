@@ -6,25 +6,11 @@ let addPointClickHandler = null;
 const dontAddPointButtonElement = document.getElementById('dont-add-point-button');
 let dontAddPointClickHandler = null;
 
-
-// Function to toggle report-mode on or off, depending on the value of the input boolean.
-function toggleReportMode(on) {
-  if (on) {
-    reportModeEnabled = true;
-    displayMenuElement('report-mode')
-  } else{
-    reportModeEnabled = false;
-    displayMenuElement('default')
-  }
-}
-
-
 // Function to maybe create a new blokkage if user confirms point placement.
 async function maybeAddNewPoint(latlng) {
   
   // Create preview marker to show user where point would be added.
   let previewMarker = L.marker(latlng, { icon: getNewBlokkeringIcon() }).addTo(map);
-  previewPointActive = true;
 
   // Zoom in to new point location
   map.setView(latlng, 18);
@@ -77,7 +63,7 @@ async function maybeAddNewPoint(latlng) {
   dontAddPointButtonElement.addEventListener('click', dontAddPointClickHandler);
 
   // Display the 'add new point?' confirmation menu.
-  displayMenuElement('new-point-confirmation-menu');
+  display.switch_to('new-point-confirmation-menu');
 
   // Function for closing the edit menu
   function closeEditMenu() {
@@ -85,10 +71,8 @@ async function maybeAddNewPoint(latlng) {
     map.removeLayer(previewMarker);
   
     // Toggle report mode back off
-    toggleReportMode(false);
-  
-    previewPointActive = false;
-  
+    display.switch_to('default');
+    
     // Update blokkages layer to include new point if it was added.
     addOrUpdateBlokkagesLayer();
   }

@@ -1,11 +1,8 @@
-// Set some flags.
-let reportModeEnabled = false;
-let previewPointActive = false;
-
 // Set some variables used by different parts of the code
 let map = null;
 let userInfo = null;
 let blokkagesLayer = null;
+let display = new Display()
 
 async function main(){
   // Create map
@@ -24,11 +21,11 @@ async function main(){
 
   // Add event listeners to report/cancel report buttons
   document.getElementById('report-button').addEventListener('click', function(){
-    toggleReportMode(true);
+    display.switch_to('report-mode');
   });
 
   document.getElementById('cancel-report-button').addEventListener('click', function() {
-    toggleReportMode(false);
+    display.switch_to('default');
   });
 
   // Asks user for location and zooms in if user gives location
@@ -39,7 +36,8 @@ async function main(){
 
   // Adds click handler to map to maybe add new blokkage if user confirms.
   map.on("click", function (e) {
-    if (reportModeEnabled && !previewPointActive) {
+    // Check if the user is in edit-mode before trying to add new point
+    if (display.state == 'edit-mode') {
       maybeAddNewPoint(e.latlng);
     }
   });

@@ -66,7 +66,7 @@ async function displayInfoMenu(point_id, latlng) {
     }
 
     // Display info div.
-    displayMenuElement('info-menu');
+    display.switch_to('info-menu');
   } catch (error) {
     console.error("Error fetching or processing feature info:", error);
   }
@@ -134,6 +134,6 @@ async function displayInfoMenu(point_id, latlng) {
     map.invalidateSize();
   
     // Hide info-menu
-    displayMenuElement('default');
+    display.switch_to('default');
   }
 }

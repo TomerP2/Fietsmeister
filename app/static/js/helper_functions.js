@@ -38,38 +38,48 @@ function createIcon(iconURL) {
   });
 }
 
-function displayMenuElement(menu) {
-  // Get neccesary html-elements.
-  const reportButtonElement = document.getElementById('report-button');
-  const reportTextElement = document.getElementById('report-text');
-  const cancelReportButtonElement = document.getElementById('cancel-report-button');
-  const infoElement = document.getElementById('info');
-  const newPointConfirmationMenuElement = document.getElementById('new-point-confirmation-menu');
+class Display {
+  constructor() {
+    // Get necessary HTML elements during instantiation.
+    this.reportButtonElement = document.getElementById('report-button');
+    this.reportTextElement = document.getElementById('report-text');
+    this.cancelReportButtonElement = document.getElementById('cancel-report-button');
+    this.infoElement = document.getElementById('info');
+    this.newPointConfirmationMenuElement = document.getElementById('new-point-confirmation-menu');
 
-  // Hide all elements. 
-  reportButtonElement.style.display = 'none';
-  reportTextElement.style.display = 'none';
-  cancelReportButtonElement.style.display = 'none';
-  infoElement.classList.remove('move-up');
-  newPointConfirmationMenuElement.classList.remove('move-up');
+    // Create a variable to keep track of what is being displayed
+    this.state = 'default';
+  }
 
-  switch(menu){
+  switch_to(menu) {
+    // Hide all elements.
+    this.reportButtonElement.style.display = 'none';
+    this.reportTextElement.style.display = 'none';
+    this.cancelReportButtonElement.style.display = 'none';
+    this.infoElement.classList.remove('move-up');
+    this.newPointConfirmationMenuElement.classList.remove('move-up');
+
     // Show only the elements belonging to the chosen menu.
-    case 'default':
-      reportButtonElement.style.display = 'block';
-      break;
-    
-    case 'report-mode':
-      reportTextElement.style.display = 'block';
-      cancelReportButtonElement.style.display = 'block';
-      break;
-    
-    case 'info-menu':
-      infoElement.classList.add('move-up');
-      break;
-    
-    case 'new-point-confirmation-menu':
-      newPointConfirmationMenuElement.classList.add('move-up');
-      break;
+    switch (menu) {
+      case 'default':
+        this.reportButtonElement.style.display = 'block';
+        break;
+
+      case 'report-mode':
+        this.reportTextElement.style.display = 'block';
+        this.cancelReportButtonElement.style.display = 'block';
+        break;
+
+      case 'info-menu':
+        this.infoElement.classList.add('move-up');
+        break;
+
+      case 'new-point-confirmation-menu':
+        this.newPointConfirmationMenuElement.classList.add('move-up');
+        break;
+    }
+
+    // Change the state variable
+    this.state = menu
   }
 }
