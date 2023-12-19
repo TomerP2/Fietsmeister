@@ -1,24 +1,21 @@
-// Set some global variables
+// Set some flags.
 let reportModeEnabled = false;
 let previewPointActive = false;
-let blokkagesLayer = null;
-const basemapUrl = 'https://service.pdok.nl/brt/achtergrondkaart/wmts/v2_0/pastel/EPSG:3857/{z}/{x}/{y}.png'
-const reportButtonElement = document.getElementById('report-button');
-const reportTextElement = document.getElementById('report-text');
-const cancelReportButtonElement = document.getElementById('cancel-report-button');
-const infoElement = document.getElementById('info')
-let userInfo = null;
+
+// Set some variables used by different parts of the code
 let map = null;
+let userInfo = null;
+let blokkagesLayer = null;
 
 async function main(){
   // Create map
   map = L.map("map").setView([51.6951, 5.333135], 16);
-
+  
   // Fetch user info from flask API
   userInfo = await getCurrentUserInfo();
-
+  
   // Create basemap and add to map
-  L.tileLayer(basemapUrl, {
+  L.tileLayer('https://service.pdok.nl/brt/achtergrondkaart/wmts/v2_0/pastel/EPSG:3857/{z}/{x}/{y}.png', {
     minZoom: 6,
     maxZoom: 19,
     bounds: [[50.5, 3.25], [54, 7.6]],
@@ -26,11 +23,11 @@ async function main(){
   }).addTo(map);
 
   // Add event listeners to report/cancel report buttons
-  reportButtonElement.addEventListener('click', function(){
+  document.getElementById('report-button').addEventListener('click', function(){
     toggleReportMode(true);
   });
 
-  cancelReportButtonElement.addEventListener('click', function() {
+  document.getElementById('cancel-report-button').addEventListener('click', function() {
     toggleReportMode(false);
   });
 
