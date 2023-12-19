@@ -6,11 +6,14 @@ let addPointClickHandler = null;
 const dontAddPointButtonElement = document.getElementById('dont-add-point-button');
 let dontAddPointClickHandler = null;
 
+// Global to access preview marker from multiple functions
+let previewMarker = null
+
 // Function to maybe create a new blokkage if user confirms point placement.
 async function maybeAddNewPoint(latlng) {
   
   // Create preview marker to show user where point would be added.
-  let previewMarker = L.marker(latlng, { icon: getNewBlokkeringIcon() }).addTo(map);
+  previewMarker = L.marker(latlng, { icon: getNewBlokkeringIcon() }).addTo(map);
 
   // Zoom in to new point location
   map.setView(latlng, 18);
@@ -65,15 +68,16 @@ async function maybeAddNewPoint(latlng) {
   // Display the 'add new point?' confirmation menu.
   display.switch_to('new-point-confirmation-menu');
 
-  // Function for closing the edit menu
-  function closeEditMenu() {
-    // Remove the preview point created to display where real point would go.
-    map.removeLayer(previewMarker);
+}
+
+// Function for closing the edit menu
+function closeEditMenu() {
+  // Remove the preview point created to display where real point would go.
+  map.removeLayer(previewMarker);
+
+  // Toggle report mode back off
+  display.switch_to('default');
   
-    // Toggle report mode back off
-    display.switch_to('default');
-    
-    // Update blokkages layer to include new point if it was added.
-    addOrUpdateBlokkagesLayer();
-  }
+  // Update blokkages layer to include new point if it was added.
+  addOrUpdateBlokkagesLayer();
 }

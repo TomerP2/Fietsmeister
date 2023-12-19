@@ -37,14 +37,19 @@ async function main(){
   // Adds click handler to map to maybe add new blokkage if user confirms.
   map.on("click", function (e) {
 
-    // Check if the user is in edit-mode. If they are, try to add new point.
-    if (display.state == 'edit-mode') {
+    // Check if the user is in report-mode. If they are, try to add new point.
+    if (display.state == 'report-mode') {
       maybeAddNewPoint(e.latlng);
     } 
 
-    // If user is in either the info menu or the 'new point confirmation' menu, bring them back to the home page if they click on the map.
-    else if (display.state == 'info-menu' || display.state == 'new-point-confirmation-menu') {
+    // If user is in info menu , bring them back to the home page if they click on the map.
+    else if (display.state == 'info-menu') {
       display.switch_to('default')
+    }
+
+    // If the user is in the 'new point confirmation' menu, remove the point and return back to the default menu.
+    else if (display.state == 'new-point-confirmation-menu') {
+      closeEditMenu();
     }
 
   });
@@ -70,7 +75,9 @@ async function addOrUpdateBlokkagesLayer() {
         
         // Add click handler to display point info
         marker.on('click', function () {
-          displayInfoMenu(point_id, latlng);
+          if (display.state == 'default') {
+            displayInfoMenu(point_id, latlng);
+          };
         });
         return marker;
       },
