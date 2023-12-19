@@ -67,7 +67,7 @@ async function addOrUpdateBlokkagesLayer() {
         
         // Add click handler to display point info
         marker.on('click', function () {
-          displayPointInfo(point_id, latlng);
+          displayInfoMenu(point_id, latlng);
         });
         return marker;
       },
