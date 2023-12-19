@@ -13,7 +13,6 @@ async function getCurrentUserInfo() {
     if (data.error) {
       console.error('Error:', data.error);
     } else {
-      console.log('User Info:', data);
       return data;
     }
   } catch (error) {

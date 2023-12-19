@@ -3,15 +3,17 @@ const markTrueButton = document.getElementById('mark-true');
 const markFalseButton = document.getElementById('mark-false');
 
 // Set some global click handler pointers.
-let markTrueClickHandler = null;
-let markFalseClickHandler = null;
+let buttonHandlers = {
+  markTrue: null,
+  markFalse: null
+};
 
 
 async function displayInfoMenu(point_id, latlng) {
 
   // Add event listener to 'close' button.
   document.getElementById("close-info-button").addEventListener('click', function () {
-    hideInfoMenu(map);
+    display.switch_to('default');
   });
   
   try {
@@ -46,17 +48,8 @@ async function displayInfoMenu(point_id, latlng) {
       buttonsContainerElement.style.display = "flex";
 
       // Remove old event listeners from mark buttons and add new event listeners.
-      if (markTrueClickHandler) {
-        markTrueButton.removeEventListener('click', markTrueClickHandler);
-        markTrueClickHandler = null;
-      }
-      markTrueClickHandler = addButtonEventListener(markTrueButton, point_id, latlng, true);
-      
-      if (markFalseClickHandler) {
-        markFalseButton.removeEventListener('click', markFalseClickHandler);
-        markFalseClickHandler = null;
-      }
-      markFalseClickHandler = addButtonEventListener(markFalseButton, point_id, latlng, false);
+      await updateButtonEventListener(markTrueButton, 'markTrue', point_id, latlng, true);
+      await updateButtonEventListener(markFalseButton, 'markFalse', point_id, latlng, false);
     }
 
     // Display info div.
@@ -68,7 +61,14 @@ async function displayInfoMenu(point_id, latlng) {
     console.error("Error fetching or processing feature info:", error);
   }
 
-  async function addButtonEventListener(Button, point_id, latlng, markedTrue) {  
+  async function updateButtonEventListener(buttonElement, handlerKey, point_id, latlng, markedTrue) {  
+
+    // Remove old listener if it exists.
+    if (buttonHandlers[handlerKey]) {
+      buttonElement.removeEventListener('click', buttonHandlers[handlerKey]);
+      buttonHandlers[handlerKey] = null;
+    }
+
     // Get API url.
     let apiURL = 'http://127.0.0.1:8080/api/';
 
@@ -80,7 +80,7 @@ async function displayInfoMenu(point_id, latlng) {
     }
   
     // Create the click Handler.
-    const clickHandler = function () {
+    buttonHandlers[handlerKey] = function () {
       // Prepare the information about the new marking to be posted to the API.
       let markingInfo = {
           'blokkage_id': point_id,
@@ -101,7 +101,7 @@ async function displayInfoMenu(point_id, latlng) {
 
           // Close and re-open the info-menu after user marked point. 
           // This is done so that the user sees the updated marked true/false counters and that the buttons to review get correctly removed.
-          hideInfoMenu();
+          display.switch_to('default');
           displayInfoMenu(point_id, latlng);
         })
         .catch(error => {
@@ -110,23 +110,6 @@ async function displayInfoMenu(point_id, latlng) {
     };
   
     // Add event listener to button and return the click handler for future removal.
-    Button.addEventListener('click', clickHandler);
-    return clickHandler;
-  }
-
-  function hideInfoMenu() {
-    // Remove event listeners from mark-true and mark-false buttons
-    if (markTrueClickHandler) {
-      markTrueButton.removeEventListener('click', markTrueClickHandler);
-      markTrueClickHandler = null;
-    }
-  
-    if (markFalseClickHandler) {
-      markFalseButton.removeEventListener('click', markFalseClickHandler);
-      markFalseClickHandler = null;
-    }
-  
-    // Hide info-menu
-    display.switch_to('default');
+    buttonElement.addEventListener('click', buttonHandlers[handlerKey]);
   }
 }
