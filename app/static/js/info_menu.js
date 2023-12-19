@@ -51,8 +51,17 @@ async function displayInfoMenu(point_id, latlng) {
       alreadyMarkedTextElement.style.display = "none";
       buttonsContainerElement.style.display = "flex";
 
-      // Add event listeners to mark buttons.
+      // Remove old event listeners from mark buttons and add new event listeners.
+      if (markTrueClickHandler) {
+        markTrueButton.removeEventListener('click', markTrueClickHandler);
+        markTrueClickHandler = null;
+      }
       markTrueClickHandler = addButtonEventListener(markTrueButton, point_id, latlng, true);
+      
+      if (markFalseClickHandler) {
+        markFalseButton.removeEventListener('click', markFalseClickHandler);
+        markFalseClickHandler = null;
+      }
       markFalseClickHandler = addButtonEventListener(markFalseButton, point_id, latlng, false);
     }
 
