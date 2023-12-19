@@ -2,7 +2,7 @@
 let map = null;
 let userInfo = null;
 let blokkagesLayer = null;
-let display = new Display()
+const display = new Display();
 
 async function main(){
   // Create map

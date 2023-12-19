@@ -26,9 +26,9 @@
     {% endfor %}
     <div id="report-content-container">
         <div id="report-button">
-            <p class="button-f">REPORT</p>
+            <p class="button-f">NIEUWE BLOKKERING</p>
         </div>
-        <p class="button-f" id="report-text">hou ingedrukt om een blokkering toe te voegen</p>
+        <p class="button-f" id="report-text">Click om een blokkering toe te voegen</p>
         <div id="cancel-report-button">
             <p class="button-f">CANCEL</p>
         </div>
@@ -54,7 +54,7 @@
         </div>
         <hr class="light-divider">
         <div id="mark-true-false-container">
-            <p class="text-f" id="already-marked-text">U heeft dit punt al gemarkeerd</p>
+            <p class="text-f" id="already-marked-text">U heeft dit blokkering al gemarkeerd</p>
             <div id="mark-true-false-buttons-container">
                 <img id="mark-true" class="large-icon" src="{{ url_for('static', filename='png/mark_true_large.png') }}">
                 <img id="mark-false" class="large-icon" src="{{ url_for('static', filename='png/mark_false_large.png') }}">
@@ -62,7 +62,7 @@
         </div>
     </div>
     <div id="new-point-confirmation-menu">
-        <p class="title-f">Nieuwe punt toevoegen?</p>
+        <p class="title-f">Nieuwe blokkering toevoegen?</p>
         <div id="add-point-buttons-container">
             <img id="add-point-button" class="large-icon" src="{{ url_for('static', filename='png/add_blokkage_button.png') }}">
             <img id="dont-add-point-button" class="large-icon" src="{{ url_for('static', filename='png/dont_add_blokkage_button.png') }}">
