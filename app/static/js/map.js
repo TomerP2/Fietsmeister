@@ -18,7 +18,13 @@ async function main(){
   
   userInfo = await getCurrentUserInfo();
   
-  getBasemap().addTo(map);
+  // Create basemap
+  L.tileLayer(basemapUrl, {
+    minZoom: 6,
+    maxZoom: 19,
+    bounds: [[50.5, 3.25], [54, 7.6]],
+    attribution: 'Kaartgegevens &copy; <a href="https://www.kadaster.nl">Kadaster</a>'
+  }).addTo(map);
   
   reportButtonElement.addEventListener('click', function(){
     toggleReportMode(true);
@@ -39,15 +45,6 @@ async function main(){
   });
 }
 
-function getBasemap() {
-  return L.tileLayer(basemapUrl, {
-    minZoom: 6,
-    maxZoom: 19,
-    bounds: [[50.5, 3.25], [54, 7.6]],
-    attribution: 'Kaartgegevens &copy; <a href="https://www.kadaster.nl">Kadaster</a>'
-  });
-};
-
 
 async function addOrUpdateBlokkagesLayer() {
   try {
@@ -58,25 +55,23 @@ async function addOrUpdateBlokkagesLayer() {
       map.removeLayer(blokkagesLayer);
     }
     
-    blokkagesLayer = createLayerFromJson(data);
+    blokkagesLayer = L.geoJSON(data, {
+      pointToLayer: function (feature, latlng) {
+        const marker = L.marker(latlng, { icon: BlokkeringIconGroot });
+        const point_id = feature.id.split('.')[1]
+        
+        marker.on('click', function () {
+          displayPointInfo(point_id, latlng);
+        });
+        return marker;
+      },
+    });
+
     blokkagesLayer.addTo(map);
+
   } catch (error) {
     console.error("Error fetching or processing GeoJSON:", error);
   }
-}
-
-function createLayerFromJson(data) {
-  return L.geoJSON(data, {
-    pointToLayer: function (feature, latlng) {
-      const marker = L.marker(latlng, { icon: BlokkeringIconGroot });
-      const point_id = feature.id.split('.')[1]
-      
-      marker.on('click', function () {
-        displayPointInfo(point_id, latlng);
-      });
-      return marker;
-    },
-  });
 }
 
 main();
