@@ -1,6 +1,6 @@
 // Set some global variables
 let reportModeEnabled = false;
-let temporaryPointActive = false;
+let previewPointActive = false;
 let blokkagesLayer = null;
 const basemapUrl = 'https://service.pdok.nl/brt/achtergrondkaart/wmts/v2_0/pastel/EPSG:3857/{z}/{x}/{y}.png'
 const BlokkeringIconGroot = createBlokkeringIcon();
@@ -39,10 +39,10 @@ map.locate({ setView: true });
 // Adds blokkages layer to map
 addOrUpdateBlokkagesLayer();
 
-// Adds click handler to map to create new blokkage
+// Adds click handler to map to maybe add new blokkage if user confirms.
 map.on("click", function (e) {
-  if (reportModeEnabled && !temporaryPointActive) {
-    createBlokkage(e.latlng);
+  if (reportModeEnabled && !previewPointActive) {
+    maybeAddNewPoint(e.latlng);
   }
 });
 

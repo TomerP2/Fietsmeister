@@ -22,11 +22,11 @@ async function getCurrentUserInfo() {
 }
 
 // Functions to get different blokkering icons
-function createBlokkeringIcon() {
+function getBlokkeringIcon() {
   return createIcon("/static/png/blokkering_icon_groot.png");
 }
 
-function createNewBlokkeringIcon() {
+function getNewBlokkeringIcon() {
   return createIcon("/static/png/new_blokkering_icon.png");
 }
 
