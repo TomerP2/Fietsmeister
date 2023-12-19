@@ -8,13 +8,7 @@ let markFalseClickHandler = null;
 
 
 async function displayInfoMenu(point_id, latlng) {
-  // Change map size so it fits the part above the info-window and center the marker.
-  // This is done so that the point is centered correctly in the remaining space.
-  const newHeight = window.innerHeight * 0.75;
-  map.getContainer().style.height = `${newHeight}px`;
-  map.invalidateSize();
-  map.setView(latlng, 18);
-  
+
   // Add event listener to 'close' button.
   document.getElementById("close-info-button").addEventListener('click', function () {
     hideInfoMenu(map);
@@ -67,6 +61,9 @@ async function displayInfoMenu(point_id, latlng) {
 
     // Display info div.
     display.switch_to('info-menu');
+    // Center the selected marker
+    map.setView(latlng, 18);
+
   } catch (error) {
     console.error("Error fetching or processing feature info:", error);
   }
@@ -128,10 +125,6 @@ async function displayInfoMenu(point_id, latlng) {
       markFalseButton.removeEventListener('click', markFalseClickHandler);
       markFalseClickHandler = null;
     }
-  
-    // Set map height back to fullscreen.
-    map.getContainer().style.height = `100%`;
-    map.invalidateSize();
   
     // Hide info-menu
     display.switch_to('default');

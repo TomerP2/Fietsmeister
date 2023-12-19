@@ -62,6 +62,11 @@ class Display {
     // Show only the elements belonging to the chosen menu.
     switch (menu) {
       case 'default':
+        // Set map height to fullscreen.
+        map.getContainer().style.height = `100%`;
+        map.invalidateSize();
+
+        // Show 'report' button.
         this.reportButtonElement.style.display = 'block';
         break;
 
@@ -71,6 +76,13 @@ class Display {
         break;
 
       case 'info-menu':
+        // Change map size so it fits the part above the info-window.
+        // This is done so that the point is centered correctly in the remaining space.
+        const newHeight = window.innerHeight * 0.75;
+        map.getContainer().style.height = `${newHeight}px`;
+        map.invalidateSize();
+
+        // Show info window.
         this.infoElement.classList.add('move-up');
         break;
 
