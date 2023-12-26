@@ -18,7 +18,7 @@ async function displayInfoMenu(point_id, latlng) {
   
   try {
     // Fetch feature info from Flask api.
-    const blokkageInfoAPI = `http://127.0.0.1:8080/api/blokkageinfo/${point_id}`;
+    const blokkageInfoAPI = `http://127.0.0.1:5000/api/blokkageinfo/${point_id}`;
     const response = await fetch(blokkageInfoAPI);
     if (!response.ok) {
       throw new Error(`Failed to fetch data. Status: ${response.status}`);
@@ -76,7 +76,7 @@ async function displayInfoMenu(point_id, latlng) {
     }
 
     // Get API url.
-    let apiURL = 'http://127.0.0.1:8080/api/';
+    let apiURL = 'http://127.0.0.1:5000/api/';
 
     // Check if button is to mark true or mark false. update API accordingly.
     if (markedTrue) {

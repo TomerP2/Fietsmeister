@@ -54,7 +54,7 @@ async function main(){
 async function addOrUpdateBlokkagesLayer() {
   try {
     // fetch data from geoserver WFS
-    const wfsUrl = "http://localhost:8181/geoserver/fietsmeister/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=fietsmeister%3Ablokkages&outputFormat=application%2Fjson";
+    const wfsUrl = "http://localhost:8080/geoserver/fietsmeister/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=fietsmeister%3Ablokkages&outputFormat=application%2Fjson";
     const response = await fetch(wfsUrl);
     const data = await response.json();
     
