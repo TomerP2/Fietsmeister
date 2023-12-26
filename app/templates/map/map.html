@@ -15,18 +15,39 @@
     integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
     crossorigin=""></script>
 
+    <!-- css links -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/basics.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/map.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/infotab.css') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/new_point.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/settings_menu.css') }}">
 </head>
 <body>
     {% for message in get_flashed_messages() %}
     <div class="flash">{{ message }}</div>
     {% endfor %}
+
+    <!-- leaflet map container -->
+    <div id="map"></div>
+
+    <!-- settings icon -->
+    <div id="settings-icon-container">
+        <img id="settings-icon" src="{{ url_for('static', filename='png/settings_icon.png') }}">
+    </div>
+
+    <!-- settings menu -->
+    <div id="settings-menu-container">
+        <p class="title-f">Settings</p>
+        <img id="close-settings-menu-button" src="{{ url_for('static', filename='png/close_tab.png') }}">
+        <img id="log-out-button" class="large-icon" src="{{ url_for('static', filename='png/log_out_button.png') }}">
+    </div>
+
+    <!-- 'çlick on map to add point' tip -->
     <div id="report-content-container" class="move-up">
         <p class="title-f" id="report-text">Click op de kaart om een blokkering toe te voegen</p>
     </div>
+
+    <!-- information-menu for when user clicks on point -->
     <div id="info">
         <div id="header-container">
             <div id="header-container-left">
@@ -55,6 +76,8 @@
             </div>
         </div>
     </div>
+
+    <!-- menu that shows up when user selects location for new point -->
     <div id="new-point-confirmation-menu">
         <p class="title-f">Nieuwe blokkering toevoegen?</p>
         <div id="add-point-buttons-container">
@@ -62,7 +85,8 @@
             <img id="dont-add-point-button" class="large-icon" src="{{ url_for('static', filename='png/dont_add_blokkage_button.png') }}">
         </div>
     </div>
-    <div id="map"></div>
+
+    <!-- js links -->
     <script src="{{ url_for('static', filename='js/helper_functions.js') }}"></script>
     <script src="{{ url_for('static', filename='js/info_menu.js') }}"></script>
     <script src="{{ url_for('static', filename='js/new_point.js') }}"></script>

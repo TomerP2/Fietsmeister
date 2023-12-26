@@ -4,6 +4,19 @@
     z-index: 0; /* Set a lower z-index for the map */
 }
 
+#settings-icon-container{
+    z-index: 1; /* Set a higher z-index to be infront of the map */
+    position: fixed;
+    top: 2vh;
+    right: 4vw;
+    width: 10vw;
+}
+
+#settings-icon{
+    height: auto; 
+    max-width: 100%;
+}
+ 
 #report-content-container{
     border-radius: 25px 25px 0 0;
     position: fixed;

@@ -1,0 +1,34 @@
+#settings-menu-container{
+    /* positioning */
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 80%;
+    height: auto; 
+    
+    /* inner layout */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3vw;
+    padding: 3vw;
+    
+    /* styling */
+    box-shadow: 0 -5px 20px rgba(0, 0, 0, 0.2);
+    background-color: #ffffff;
+    border-radius: 25px;
+}
+
+#close-settings-menu-button{
+    position: fixed;
+    right: 5vw;
+    top: 4vw;
+
+    width: 7vw;
+    height: auto;
+}
+
+#log-out-button{
+    display: flex;
+}
