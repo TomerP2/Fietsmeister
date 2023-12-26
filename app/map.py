@@ -11,6 +11,7 @@ bp = Blueprint('map', __name__)
 
 
 @bp.route('/map')
+@login_required
 def index():
     return render_template('map/map.html')
 
