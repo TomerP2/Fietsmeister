@@ -30,7 +30,6 @@ async function main(){
     document.getElementById('report-content-container').classList.remove('move-up');
   }, 5000); 
 
-
   // Adds click handler to settings-button.
   document.getElementById('settings-icon').addEventListener('click', function() {
     display.switch_to('settings');
