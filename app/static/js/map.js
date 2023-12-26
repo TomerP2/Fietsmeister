@@ -30,17 +30,23 @@ async function main(){
     document.getElementById('report-content-container').classList.remove('move-up');
   }, 5000); 
 
+
+  // Adds click handler to settings-button.
+  document.getElementById('settings-icon').addEventListener('click', function() {
+    display.switch_to('settings');
+  })
+
   // Adds click handler to map to maybe add new blokkage if user confirms.
   map.on("click", function (e) {
 
-    // Check if the user is in report-mode. If they are, try to add new point.
+    // Check if the user is in the default view mode. If they are, try to add new point.
     if (display.state == 'default') {
       maybeAddNewPoint(e.latlng);
     } 
 
     // If user is in info menu , bring them back to the home page if they click on the map.
     else if (display.state == 'info-menu') {
-      display.switch_to('default')
+      display.switch_to('default');
     }
 
     // If the user is in the 'new point confirmation' menu, remove the point and return back to the default menu.

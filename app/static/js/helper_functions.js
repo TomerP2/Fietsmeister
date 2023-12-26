@@ -43,6 +43,7 @@ class Display {
     this.reportTextElement = document.getElementById('report-content-container');
     this.infoElement = document.getElementById('info');
     this.newPointConfirmationMenuElement = document.getElementById('new-point-confirmation-menu');
+    this.settingsMenuElement = document.getElementById('settings-menu-container')
 
     // Create a variable to keep track of what is being displayed.
     this.state = 'default';
@@ -53,6 +54,7 @@ class Display {
     this.reportTextElement.classList.remove('move-up');
     this.infoElement.classList.remove('move-up');
     this.newPointConfirmationMenuElement.classList.remove('move-up');
+    this.settingsMenuElement.style.display = 'none';
 
     // Show only the elements belonging to the chosen menu.
     switch (menu) {
@@ -72,6 +74,10 @@ class Display {
 
       case 'new-point-confirmation-menu':
         this.newPointConfirmationMenuElement.classList.add('move-up');
+        break;
+
+      case 'settings':
+        this.settingsMenuElement.style.display = 'flex';
         break;
     }
 

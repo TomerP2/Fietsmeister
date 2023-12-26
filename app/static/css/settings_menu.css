@@ -8,7 +8,7 @@
     height: auto; 
     
     /* inner layout */
-    display: flex;
+    display: none;
     flex-direction: column;
     align-items: center;
     gap: 3vw;
@@ -27,8 +27,4 @@
 
     width: 7vw;
     height: auto;
-}
-
-#log-out-button{
-    display: flex;
 }
