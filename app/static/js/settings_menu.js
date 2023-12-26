@@ -5,13 +5,29 @@ document.getElementById('close-settings-menu-button').addEventListener('click', 
 
 
 // Add click event to log out button.
-document.getElementById('log-out-button').addEventListener('click', function(){
-    // Call the 'logout' function in the flask API.
-    fetch('/auth/logout', {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-      });
-    console.log('User logged out.')
-})
+document.getElementById('log-out-button').addEventListener('click', async function() {
+    try {
+        const response = await fetch('/auth/logout', {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        });
+
+        if (response.ok) {
+            const result = await response.json();
+
+            // Check the status in the JSON response.
+            if (result.status === 'success') {
+                // Redirect the user to the home page.
+                window.location.href = 'http://127.0.0.1:5000/';
+            } else {
+                console.error('Logout failed:', result.message);
+            }
+        } else {
+            console.error('Logout failed:', response.status, response.statusText);
+        }
+    } catch (error) {
+        console.error('Error during logout:', error);
+    }
+});

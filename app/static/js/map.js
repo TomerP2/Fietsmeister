@@ -43,8 +43,8 @@ async function main(){
       maybeAddNewPoint(e.latlng);
     } 
 
-    // If user is in info menu , bring them back to the home page if they click on the map.
-    else if (display.state == 'info-menu') {
+    // If user is in info menu or the settings menu, bring them back to the home page if they click on the map.
+    else if (display.state == 'info-menu' || display.state == 'settings') {
       display.switch_to('default');
     }
 
