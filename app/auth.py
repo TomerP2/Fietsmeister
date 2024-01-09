@@ -38,7 +38,8 @@ def register():
         if error is None:
             try:
                 cursor.execute(
-                    f"INSERT INTO users (username, password, active) VALUES ('{username}', '{generate_password_hash(password)}', TRUE)"
+                    "INSERT INTO users (username, password, active) VALUES (%s, %s, TRUE)",
+                    (username,  generate_password_hash(password))
                 )
                 db.commit()
                 return redirect(url_for("auth.login"))

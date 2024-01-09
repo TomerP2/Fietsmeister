@@ -49,7 +49,7 @@ def test_mark_blokkage_true(client, app, api_endpoint, blokkage_id, user_id, mes
 
     with app.app_context():
         cursor = get_cursor()
-        cursor.execute(f"SELECT COUNT(*) FROM {table} WHERE blokkage_id = 1")
+        cursor.execute("SELECT COUNT(*) FROM %s WHERE blokkage_id = 1", (table,))
         count = cursor.fetchone()[0]
         assert count == blokkages_count
 
@@ -65,7 +65,7 @@ def test_create_new_blokkage(client, auth, app):
 
     with app.app_context():
         cursor = get_cursor()
-        cursor.execute(f"SELECT COUNT(*) FROM blokkages")
+        cursor.execute("SELECT COUNT(*) FROM blokkages")
         count = cursor.fetchone()[0]
         assert count == 3
 

@@ -18,7 +18,7 @@ def get_user_by_id_or_username(input, is_ID):
     if is_ID: column = 'id'
     else: column = 'username'
 
-    cursor.execute(f"SELECT * FROM users WHERE {column} = '{input}'")
+    cursor.execute("SELECT * FROM users WHERE %s = %s", (column, input))
     row = cursor.fetchone()
 
     if row is None:
@@ -34,7 +34,7 @@ def get_user_by_id_or_username(input, is_ID):
 def get_points_marked_by_user(id, cursor):
     points = []
     for table in ("marked_true", "marked_false"):
-        cursor.execute(f"SELECT blokkage_id FROM {table} WHERE created_by = {id}")
+        cursor.execute("SELECT blokkage_id FROM %s WHERE created_by = %s", (table, id))
         results = cursor.fetchall()
         for result in results:
             points.append(result[0])

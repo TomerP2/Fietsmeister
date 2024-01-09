@@ -19,7 +19,7 @@ def index():
 @bp.route('/api/blokkageinfo/<int:id>', methods=['GET'])
 def get_blokkage_info(id):
     cursor = get_cursor()
-    cursor.execute(f"""
+    cursor.execute("""
     SELECT 
     EXTRACT(DAY FROM (NOW() - b.created_at)) AS days_ago,
     u.username,
@@ -89,12 +89,11 @@ def mark_true_or_false(request, marked_true):
 
         if marked_true: table = 'marked_true'
         else: table = 'marked_false'
-        QUERY = f"INSERT INTO {table} (blokkage_id, created_by) VALUES (%s, %s)"
-        
 
-        cursor.execute(QUERY, (blokkage_id, user_id))
+        cursor.execute("INSERT INTO %s (blokkage_id, created_by) VALUES (%s, %s)",
+                       (table, blokkage_id, user_id))
         db.commit()
-
+        
         return jsonify({"success": True, "message": "Succesfully marked."})
 
     except ValueError as ve:
