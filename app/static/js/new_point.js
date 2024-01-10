@@ -32,7 +32,7 @@ async function maybeAddNewPoint(latlng) {
   // Create new click handler for 'add point' button.
   addPointClickHandler = function () {
     // Send information about the new point to the API.
-    fetch('http://127.0.0.1:5000/api/createblokkage', {
+    fetch('/api/createblokkage', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

@@ -20,7 +20,7 @@ document.getElementById('log-out-button').addEventListener('click', async functi
             // Check the status in the JSON response.
             if (result.status === 'success') {
                 // Redirect the user to the home page.
-                window.location.href = 'http://127.0.0.1:5000/';
+                window.location.href = '/';
             } else {
                 console.error('Logout failed:', result.message);
             }

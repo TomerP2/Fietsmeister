@@ -86,6 +86,11 @@
         </div>
     </div>
 
+    <!-- expose some env variables to js files  -->
+    <script>
+        const geoserverURL = "{{ GEOSERVER_URL }}";
+    </script>
+
     <!-- js links -->
     <script src="{{ url_for('static', filename='js/helper_functions.js') }}"></script>
     <script src="{{ url_for('static', filename='js/info_menu.js') }}"></script>

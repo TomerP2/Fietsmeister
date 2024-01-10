@@ -11,7 +11,6 @@ def create_app(test_config=None):
     # create and configure the app
     app = Flask(__name__, static_folder='static')
 
-
     # WEBSITE_HOSTNAME exists only in production environment
     if 'WEBSITE_HOSTNAME' not in os.environ:
         # local development, where we'll use environment variables

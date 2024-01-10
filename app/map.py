@@ -1,5 +1,5 @@
 from flask import (
-    Blueprint, flash, g, redirect, render_template, request, url_for, jsonify
+    Blueprint, flash, g, redirect, render_template, request, url_for, jsonify, current_app
 )
 from werkzeug.exceptions import abort
 
@@ -13,7 +13,7 @@ bp = Blueprint('map', __name__)
 @bp.route('/map')
 @login_required
 def index():
-    return render_template('map/map.html')
+    return render_template('map/map.html', GEOSERVER_URL = current_app.config["GEOSERVER_URL"])
 
 
 @bp.route('/api/blokkageinfo/<int:id>', methods=['GET'])
