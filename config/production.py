@@ -5,7 +5,7 @@ import os
 # Uncomment the following lines for App Service
 
 conn_str = os.environ.get('AZURE_POSTGRESQL_CONNECTIONSTRING')
-conn_str_params = {pair.split('=')[0]: pair.split('=')[1] for pair in conn_str.split(' ')}
+conn_str_params = {pair.split('=')[0]: pair.split('=')[1] for pair in conn_str.split(';')}
 
 # DATABASE_URI = 'postgresql+psycopg2://{dbuser}:{dbpass}@{dbhost}/{dbname}'.format(
 #     dbuser=conn_str_params['user'],
@@ -14,9 +14,9 @@ conn_str_params = {pair.split('=')[0]: pair.split('=')[1] for pair in conn_str.s
 #     dbname=conn_str_params['dbname']
 # )
 
-DBUSER=conn_str_params['user']
-DBPASS=conn_str_params['password']
-DBHOST=conn_str_params['host']
-DBNAME=conn_str_params['dbname']
+DBUSER=conn_str_params['User Id']
+DBPASS=conn_str_params['Password']
+DBHOST=conn_str_params['Server']
+DBNAME=conn_str_params['Database']
 SECRET_KEY=os.environ.get('SECRET_KEY')
 GEOSERVER_URL=os.environ.get('GEOSERVER_URL')
