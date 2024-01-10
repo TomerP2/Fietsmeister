@@ -90,8 +90,8 @@ def mark_true_or_false(request, marked_true):
         if marked_true: table = 'marked_true'
         else: table = 'marked_false'
 
-        cursor.execute("INSERT INTO %s (blokkage_id, created_by) VALUES (%s, %s)",
-                       (table, blokkage_id, user_id))
+        cursor.execute(f"INSERT INTO {table} (blokkage_id, created_by) VALUES (%s, %s)",
+                       (blokkage_id, user_id))
         db.commit()
         
         return jsonify({"success": True, "message": "Succesfully marked."})

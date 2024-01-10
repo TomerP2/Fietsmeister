@@ -49,7 +49,7 @@ def test_mark_blokkage_true(client, app, api_endpoint, blokkage_id, user_id, mes
 
     with app.app_context():
         cursor = get_cursor()
-        cursor.execute("SELECT COUNT(*) FROM %s WHERE blokkage_id = 1", (table,))
+        cursor.execute(f"SELECT COUNT(*) FROM {table} WHERE blokkage_id = 1")
         count = cursor.fetchone()[0]
         assert count == blokkages_count
 
