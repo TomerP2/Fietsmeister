@@ -1,3 +1,7 @@
+# Sources:
+# https://github.com/Azure-Samples/msdocs-flask-postgresql-sample-app
+# https://flask.palletsprojects.com/en/3.0.x/
+
 import os
 
 from flask import Flask, render_template
@@ -5,27 +9,20 @@ from flask_cors import CORS
 
 def create_app(test_config=None):
     # create and configure the app
-    app = Flask(__name__, instance_relative_config=True)
+    app = Flask(__name__, static_folder='static')
 
     # Allows access between Flask app and geoserver. #TODO: Change this to only allow access to geoserver port
     CORS(app)
 
-    app.config.from_mapping(
-        SECRET_KEY='dev',
-    )
-
-    if test_config is None:
-        # load the instance config, if it exists, when not testing
-        app.config.from_mapping(
-            POSTGRES_DB = 'fietsmeister_db',
-            POSTGRES_USER = 'postgres',
-            POSTGRES_PASSWORD = 'password',
-            POSTGRES_HOST = 'localhost',
-            POSTGRES_PORT = '5432',
-        )
+    # WEBSITE_HOSTNAME exists only in production environment
+    if 'WEBSITE_HOSTNAME' not in os.environ:
+        # local development, where we'll use environment variables
+        print("Loading config.development and environment variables from .env file.")
+        app.config.from_object('config.development')
     else:
-        # load the test config if passed in
-        app.config.from_mapping(test_config)
+        # production
+        print("Loading config.production.")
+        app.config.from_object('config.production')
 
     # ensure the instance folder exists
     try:

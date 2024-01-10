@@ -49,11 +49,11 @@ def get_cursor():
 
 def get_db():
     if 'db' not in g:
-        dbname = current_app.config['POSTGRES_DB']
-        user = current_app.config['POSTGRES_USER']
-        password = current_app.config['POSTGRES_PASSWORD']
-        host = current_app.config['POSTGRES_HOST']
-        port = current_app.config['POSTGRES_PORT']
+        dbname = current_app.config['DBNAME']
+        user = current_app.config['DBUSER']
+        password = current_app.config['DBPASS']
+        host = current_app.config['DBHOST']
+        port = current_app.config['DBPORT']
 
         g.db = psycopg2.connect(dbname=dbname, user=user, password=password, host=host, port=port)
 

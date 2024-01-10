@@ -14,11 +14,6 @@ def app():
 
     app = create_app({
         'TESTING': True,
-        'POSTGRES_DB': 'fietsmeister_testing_db',
-        'POSTGRES_USER': 'postgres',
-        'POSTGRES_PASSWORD': 'password',
-        'POSTGRES_HOST': 'localhost',
-        'POSTGRES_PORT': '5432',
     })
 
     with app.app_context():
