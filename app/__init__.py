@@ -11,8 +11,6 @@ def create_app(test_config=None):
     # create and configure the app
     app = Flask(__name__, static_folder='static')
 
-    # Allows access between Flask app and geoserver. #TODO: Change this to only allow access to geoserver port
-    CORS(app)
 
     # WEBSITE_HOSTNAME exists only in production environment
     if 'WEBSITE_HOSTNAME' not in os.environ:
@@ -29,6 +27,9 @@ def create_app(test_config=None):
         os.makedirs(app.instance_path)
     except OSError:
         pass
+
+    # Allows CORS access between Flask and Geoserver
+    CORS(app, resources={r"/api/*": {"origins": app.config['GEOSERVER_URL']}})
 
     # show main page
     @app.route('/')
