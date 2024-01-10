@@ -3,8 +3,8 @@ from flask import (
 )
 from werkzeug.exceptions import abort
 
-from app.auth import login_required
-from app.db import get_cursor, get_db
+from application.auth import login_required
+from application.db import get_cursor, get_db
 
 
 bp = Blueprint('map', __name__)

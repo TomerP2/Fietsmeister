@@ -1,5 +1,5 @@
 import json
-from app.db import get_cursor
+from application.db import get_cursor
 import pytest
 
 def test_get_blokkage_info(client):

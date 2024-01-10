@@ -1,6 +1,6 @@
 import pytest
 from flask import g, session
-from app.db import get_cursor
+from application.db import get_cursor
 
 
 def test_register(client, app):

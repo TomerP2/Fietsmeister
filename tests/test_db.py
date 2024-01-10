@@ -1,7 +1,7 @@
 import psycopg2
 
 import pytest
-from app.db import get_db, get_cursor
+from application.db import get_db, get_cursor
 
 
 def test_get_close_db(app):
@@ -24,7 +24,7 @@ def test_init_db_command(runner, monkeypatch):
     def fake_init_db():
         Recorder.called = True
 
-    monkeypatch.setattr('app.db.init_db', fake_init_db)
+    monkeypatch.setattr('application.db.init_db', fake_init_db)
     result = runner.invoke(args=['init-db'])
     assert 'Initialized' in result.output
     assert Recorder.called

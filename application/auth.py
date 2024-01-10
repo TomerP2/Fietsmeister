@@ -5,7 +5,7 @@ from flask import (
 )
 from werkzeug.security import check_password_hash, generate_password_hash
 
-from app.db import get_cursor, get_db, get_user_by_id, get_user_by_username
+from application.db import get_cursor, get_db, get_user_by_id, get_user_by_username
 
 from psycopg2.errors import UniqueViolation
 
