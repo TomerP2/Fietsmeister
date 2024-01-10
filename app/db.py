@@ -53,9 +53,8 @@ def get_db():
         user = current_app.config['DBUSER']
         password = current_app.config['DBPASS']
         host = current_app.config['DBHOST']
-        port = current_app.config['DBPORT']
 
-        g.db = psycopg2.connect(dbname=dbname, user=user, password=password, host=host, port=port)
+        g.db = psycopg2.connect(dbname=dbname, user=user, password=password, host=host)
 
     return g.db
 

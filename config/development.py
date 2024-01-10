@@ -11,7 +11,6 @@ import os
 DBUSER=os.environ.get('DBUSER')
 DBPASS=os.environ.get('DBPASS')
 DBHOST=os.environ.get('DBHOST')
-DBPORT=os.environ.get('DBPORT')
 DBNAME=os.environ.get('DBNAME')
 SECRET_KEY=os.environ.get('SECRET_KEY')
 GEOSERVER_URL=os.environ.get('GEOSERVER_URL')
