@@ -1,3 +1,6 @@
+-- Install POSTGIS-extention
+CREATE EXTENSION IF NOT EXISTS postgis;
+
 -- Drop tables if they exist
 DROP TABLE IF EXISTS marked_true;
 DROP TABLE IF EXISTS marked_false;
