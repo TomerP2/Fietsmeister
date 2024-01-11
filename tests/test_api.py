@@ -1,8 +1,6 @@
 import json
 from application.db import get_cursor
 import pytest
-from datetime import datetime
-from pytz import timezone
 
 def test_get_blokkages_geojson(client):
     response = client.get('api/getblokkagesgeojson/')

@@ -13,7 +13,7 @@ bp = Blueprint('map', __name__)
 @bp.route('/map')
 @login_required
 def index():
-    return render_template('map/map.html', GEOSERVER_URL = current_app.config["GEOSERVER_URL"])
+    return render_template('map/map.html')
 
 @bp.route('/api/getblokkagesgeojson/', methods=['GET'])
 def get_blokkages_geojson():
