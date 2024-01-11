@@ -18,7 +18,7 @@ def index():
 @bp.route('/api/getblokkagesgeojson/', methods=['GET'])
 def get_blokkages_geojson():
     cursor = get_cursor()
-    QUERY = "SELECT id, created_at, created_by, ST_AsGeoJSON(geom)::json AS geometry FROM blokkages"
+    QUERY = "SELECT id, ST_AsGeoJSON(geom)::json AS geometry FROM blokkages"
     cursor.execute(QUERY)
     query_res = cursor.fetchall()
 
@@ -26,11 +26,9 @@ def get_blokkages_geojson():
     for row in query_res:
         feature = {
             "type": "Feature",
-            "geometry": row[3],
+            "geometry": row[1],
             "properties": {
-                "id": row[0],
-                "created_at": row[1],
-                "created_by": row[2]
+                "id": row[0]
             }
         }
         features.append(feature)
