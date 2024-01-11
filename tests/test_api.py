@@ -2,6 +2,25 @@ import json
 from application.db import get_cursor
 import pytest
 
+def test_get_blokkages_geojson(client):
+    response = client.get('api/getblokkagesgeojson/')
+    data = json.loads(response.data)
+
+    expected = {
+        "features": [
+            {
+                "geometry": {"coordinates": [-71.104344325, 42.315067602], "type": "Point"},
+                "properties": {"id": 1},
+                "type": "Feature"},
+            {
+                "geometry": {"coordinates": [-71.104344325, 42.315067602], "type": "Point"},
+                "properties": {"id": 2},
+                "type": "Feature"}
+        ],
+        "type": "FeatureCollection"}
+
+    assert data == expected
+
 def test_get_blokkage_info(client):
     response = client.get('/api/blokkageinfo/1')
     data = json.loads(response.data)

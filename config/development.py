@@ -17,4 +17,3 @@ DATABASE_URI = 'dbname={dbname} user={dbuser} password={dbpass} host={dbhost} po
 )
 
 SECRET_KEY=os.environ.get('SECRET_KEY')
-GEOSERVER_URL=os.environ.get('GEOSERVER_URL')

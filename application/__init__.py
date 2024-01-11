@@ -5,7 +5,6 @@
 import os
 
 from flask import Flask, render_template
-from flask_cors import CORS
 
 def create_app(test_config=None):
     # create and configure the app
@@ -26,9 +25,6 @@ def create_app(test_config=None):
         os.makedirs(app.instance_path)
     except OSError:
         pass
-
-    # Allows CORS access between Flask and Geoserver
-    CORS(app, resources={r"/api/*": {"origins": app.config['GEOSERVER_URL']}})
 
     # show main page
     @app.route('/')
