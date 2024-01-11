@@ -58,9 +58,8 @@ async function main(){
 
 async function addOrUpdateBlokkagesLayer() {
   try {
-    // fetch data from geoserver WFS
-    const wfsUrl = geoserverURL + "/fietsmeister/ows?service=WFS&version=1.0.0&request=GetFeature&typeName=fietsmeister%3Ablokkages&outputFormat=application%2Fjson";
-    const response = await fetch(wfsUrl);
+    // fetch data from flask
+    const response = await fetch("/api/getblokkagesgeojson");
     const data = await response.json();
     
     // Remove blokkageslayer if already exists
@@ -72,7 +71,7 @@ async function addOrUpdateBlokkagesLayer() {
     blokkagesLayer = L.geoJSON(data, {
       pointToLayer: function (feature, latlng) {
         const marker = L.marker(latlng, { icon: getBlokkeringIcon() });
-        const point_id = feature.id.split('.')[1]
+        const point_id = feature.properties.id
         
         // Add click handler to display point info
         marker.on('click', function () {
