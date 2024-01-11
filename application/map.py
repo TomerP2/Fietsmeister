@@ -15,6 +15,28 @@ bp = Blueprint('map', __name__)
 def index():
     return render_template('map/map.html', GEOSERVER_URL = current_app.config["GEOSERVER_URL"])
 
+@bp.route('/api/getblokkagesgeojson/', methods=['GET'])
+def get_blokkages_geojson():
+    cursor = get_cursor()
+    QUERY = "SELECT id, created_at, created_by, ST_AsGeoJSON(geom)::json AS geometry FROM blokkages"
+    cursor.execute(QUERY)
+    query_res = cursor.fetchall()
+
+    features = []
+    for row in query_res:
+        feature = {
+            "type": "Feature",
+            "geometry": row[3],
+            "properties": {
+                "id": row[0],
+                "created_at": row[1],
+                "created_by": row[2]
+            }
+        }
+        features.append(feature)
+    
+    feature_collection = {"type": "FeatureCollection", "features": features}
+    return jsonify(feature_collection)
 
 @bp.route('/api/blokkageinfo/<int:id>', methods=['GET'])
 def get_blokkage_info(id):

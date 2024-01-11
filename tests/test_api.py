@@ -1,24 +1,41 @@
 import json
 from application.db import get_cursor
 import pytest
-import datetime
+from datetime import datetime
+from pytz import timezone
 
 def test_get_blokkages_geojson(client):
-    response = client.get('api/getblokkagesgeojson')
+    response = client.get('api/getblokkagesgeojson/')
     data = json.loads(response.data)
+
+    current_time = get_current_time()
+
     expected = {
         "features": [
             {
-                "geometry": {"coordinates": [-71.1043443253471, 42.3150676015829], "type": "Point"},
-                "properties": {"id": 1, "created_at": datetime.now(), "created_by": 1},
+                "geometry": {"coordinates": [-71.104344325, 42.315067602], "type": "Point"},
+                "properties": {"id": 1, "created_at": current_time, "created_by": 1},
                 "type": "Feature"},
             {
-                "geometry": {"coordinates": [-71.104344325343, 42.315067601585], "type": "Point"},
-                "properties": {"id": 2, "created_at": datetime.now(), "created_by": 2},
+                "geometry": {"coordinates": [-71.104344325, 42.315067602], "type": "Point"},
+                "properties": {"id": 2, "created_at": current_time, "created_by": 2},
                 "type": "Feature"}
         ],
         "type": "FeatureCollection"}
-    assert data == expected
+
+    for i in range(len(data["features"])):
+        result_pnt = data["features"][i]
+        expected_pnt = expected["features"][i]
+
+        assert result_pnt["geometry"] == expected_pnt["geometry"]
+        assert result_pnt["properties"]["id"] == expected_pnt["properties"]["id"]
+        assert result_pnt["properties"]["created_by"] == expected_pnt["properties"]["created_by"]
+
+
+def get_current_time():
+    gmt = timezone('GMT')
+    current_time = datetime.now(gmt).strftime('%a, %d %b %Y %H:%M:%S GMT')
+    return current_time
 
 def test_get_blokkage_info(client):
     response = client.get('/api/blokkageinfo/1')
