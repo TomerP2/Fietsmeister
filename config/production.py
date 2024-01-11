@@ -7,6 +7,7 @@ import os
 conn_str = os.environ.get('AZURE_POSTGRESQL_CONNECTIONSTRING')
 conn_str_params = {pair.split('=')[0]: pair.split('=')[1] for pair in conn_str.split(';')}
 
+# Database=fietsmeister-database;Server=fietsmeister-server.postgres.database.azure.com;User Id=cgimeaieqk;Password=53Q13R8PS5J650WX$
 # DATABASE_URI = 'postgresql+psycopg2://{dbuser}:{dbpass}@{dbhost}/{dbname}'.format(
 #     dbuser=conn_str_params['user'],
 #     dbpass=conn_str_params['password'],
@@ -16,7 +17,7 @@ conn_str_params = {pair.split('=')[0]: pair.split('=')[1] for pair in conn_str.s
 
 DBUSER=conn_str_params['User Id']
 DBPASS=conn_str_params['Password']
-DBHOST=conn_str_params['Server']
+DBHOST= 'postgresql+psycopg2://' + conn_str_params['Server']
 DBNAME=conn_str_params['Database']
 SECRET_KEY=os.environ.get('SECRET_KEY')
 GEOSERVER_URL=os.environ.get('GEOSERVER_URL')
