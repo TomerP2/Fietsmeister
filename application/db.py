@@ -49,12 +49,7 @@ def get_cursor():
 
 def get_db():
     if 'db' not in g:
-        dbname = current_app.config['DBNAME']
-        user = current_app.config['DBUSER']
-        password = current_app.config['DBPASS']
-        host = current_app.config['DBHOST']
-
-        g.db = psycopg2.connect(dbname=dbname, user=user, password=password, host=host)
+        g.db = psycopg2.connect(current_app.config['DATABASE_URI'])
 
     return g.db
 
