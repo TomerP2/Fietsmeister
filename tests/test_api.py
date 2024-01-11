@@ -1,6 +1,24 @@
 import json
 from application.db import get_cursor
 import pytest
+import datetime
+
+def test_get_blokkages_geojson(client):
+    response = client.get('api/getblokkagesgeojson')
+    data = json.loads(response.data)
+    expected = {
+        "features": [
+            {
+                "geometry": {"coordinates": [-71.1043443253471, 42.3150676015829], "type": "Point"},
+                "properties": {"id": 1, "created_at": datetime.now(), "created_by": 1},
+                "type": "Feature"},
+            {
+                "geometry": {"coordinates": [-71.104344325343, 42.315067601585], "type": "Point"},
+                "properties": {"id": 2, "created_at": datetime.now(), "created_by": 2},
+                "type": "Feature"}
+        ],
+        "type": "FeatureCollection"}
+    assert data == expected
 
 def test_get_blokkage_info(client):
     response = client.get('/api/blokkageinfo/1')
