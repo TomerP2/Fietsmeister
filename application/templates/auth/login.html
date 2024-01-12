@@ -13,8 +13,8 @@
     {% endfor %}
     <img class="always-center" src="{{ url_for('static', filename='png/logo.png') }}">
     <form method="post" class="buttons-container-vertical">
-      <input name="username" id="username" placeholder="Username" class="button text-f grey" required>
-      <input type="password" name="password" id="password" placeholder="Password" class="button text-f grey" required>
+      <input name="username" id="username" placeholder="Username" autocomplete="username" class="button text-f grey" required >
+      <input type="password" name="password" id="password" placeholder="Password" autocomplete="current-password" class="button text-f grey" required>
       <input type="submit" value="Log In" class="button button-f blue">
     </form>
 </body>
