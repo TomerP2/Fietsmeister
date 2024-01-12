@@ -5,14 +5,15 @@
     left: 50%;
     transform: translate(-50%, -50%);
     width: 80%;
+    max-width: 300px;
     height: auto; 
     
     /* inner layout */
     display: none;
     flex-direction: column;
     align-items: center;
-    gap: 3vw;
-    padding: 3vw;
+    gap: 2vh;
+    padding: 2vh 3vw;
     
     /* styling */
     box-shadow: 0 -5px 20px rgba(0, 0, 0, 0.2);
@@ -22,9 +23,9 @@
 
 #close-settings-menu-button{
     position: fixed;
-    right: 5vw;
-    top: 4vw;
+    right: 21px;
+    top: 2.3vh;
 
-    width: 7vw;
+    width: 30px;
     height: auto;
 }
