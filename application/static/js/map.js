@@ -3,21 +3,32 @@ let map = null;
 let userInfo = null;
 let blokkagesLayer = null;
 const display = new Display();
+const minZoom = 7;
+const maxZoom = 17;
 
 async function main(){
   // Create map
   map = L.map("map").setView([51.6951, 5.333135], 16);
   
-  // Fetch user info from flask API
-  userInfo = await getCurrentUserInfo();
+  // Restrict map boundaries
+  var bounds = [
+    [50.7500, 3.2000], // Southwest corner
+    [53.7000, 7.2000]  // Northeast corner
+  ];
+  map.setMaxBounds(bounds);
+  map.setMaxZoom(maxZoom); 
+  map.setMinZoom(minZoom); 
   
   // Create basemap and add to map
   L.tileLayer('https://service.pdok.nl/brt/achtergrondkaart/wmts/v2_0/pastel/EPSG:3857/{z}/{x}/{y}.png', {
-    minZoom: 6,
-    maxZoom: 19,
-    bounds: [[50.5, 3.25], [54, 7.6]],
+    minZoom: minZoom - 1,
+    maxZoom: maxZoom + 1,
+    bounds: bounds,
     attribution: 'Kaartgegevens &copy; <a href="https://www.kadaster.nl">Kadaster</a>'
   }).addTo(map);
+  
+  // Fetch user info from flask API
+  userInfo = await getCurrentUserInfo();
 
   // Asks user for location and zooms in if user gives location
   map.locate({ setView: true });
