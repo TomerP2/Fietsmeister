@@ -20,7 +20,7 @@
 
 .buttons-container-vertical{
     position: fixed;
-    bottom: 3%;
+    bottom: 10.5%;
     right: 15vw;
     left: 15vw;
     width: auto; 
@@ -43,6 +43,19 @@
     padding: 0;
     text-decoration: none;
     text-align: center;
+}
+
+#link{
+    position: fixed;
+    bottom: 4%;
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+
+    color: var(--accent);
+    text-decoration: none; 
+    cursor: auto;
+    white-space: nowrap;
 }
 
 .blue{
