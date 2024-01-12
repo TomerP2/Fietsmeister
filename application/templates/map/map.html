@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-    <title>Document</title>
+    <title>Fietsmeister</title>
+
     <!-- Allow mixed content so that blokkages can be fetched from API -->
     <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
 
@@ -16,6 +17,15 @@
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
     integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
     crossorigin=""></script>
+
+    <!-- favicon stuff -->
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ url_for('static', filename='favicon/apple-touch-icon.png') }}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ url_for('static', filename='favicon/favicon-32x32.png') }}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ url_for('static', filename='favicon/favicon-16x16.png') }}">
+    <link rel="manifest" href="{{ url_for('static', filename='favicon/site.webmanifest') }}">
+    <link rel="mask-icon" href="{{ url_for('static', filename='favicon/safari-pinned-tab.svg') }}" color="#5bbad5">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="theme-color" content="#ffffff">
 
     <!-- css links -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/basics.css') }}">
@@ -46,7 +56,7 @@
 
     <!-- 'çlick on map to add point' tip -->
     <div id="report-content-container" class="move-up">
-        <p class="title-f" id="report-text">Click op de kaart om een blokkering toe te voegen</p>
+        <p class="title-f" id="report-text">Klik op de kaart om een blokkering toe te voegen</p>
     </div>
 
     <!-- information-menu for when user clicks on point -->
@@ -71,7 +81,7 @@
         </div>
         <hr class="light-divider">
         <div id="mark-true-false-container">
-            <p class="text-f" id="already-marked-text">U heeft dit blokkering al gemarkeerd</p>
+            <p class="text-f" id="already-marked-text">U heeft deze blokkering al gemarkeerd</p>
             <div id="mark-true-false-buttons-container">
                 <img id="mark-true" class="large-icon" src="{{ url_for('static', filename='png/mark_true_large.png') }}">
                 <img id="mark-false" class="large-icon" src="{{ url_for('static', filename='png/mark_false_large.png') }}">
