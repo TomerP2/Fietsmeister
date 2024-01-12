@@ -26,7 +26,7 @@ async function displayInfoMenu(point_id, latlng) {
     const featureInfo = await response.json();
     
     // Set text inside info-menu to info fetched from API.
-    document.getElementById("posted-by-text").textContent = `${featureInfo.days_ago} dagen geleden gepost door ${featureInfo.username}`;
+    document.getElementById("posted-by-text").textContent = `${daysAgo} ${daysAgo === 1 ? 'dag' : 'dagen'}` + `geleden gepost door ${featureInfo.username}`;
     document.getElementById("marked-true-text").textContent = `${featureInfo.marked_true} keer gemarkeerd als kloppend`;
     document.getElementById("marked-false-text").textContent = `${featureInfo.marked_false} keer gemarkeerd als niet kloppend`;
     
