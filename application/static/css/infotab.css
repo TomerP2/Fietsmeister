@@ -80,10 +80,13 @@
 }
 
 /* Bottom section of info tab */
+
+
+/* use if screen bigger than phone screen */
 #mark-true-false-container{
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start;
     height: scale;
     padding: 2vh 3vw;
 }
@@ -93,9 +96,29 @@
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    width: 100vw;
+    width: 300px;
 }
 
+/* use if screen = phone screen */
+@media (max-width: 800px) {
+    #mark-true-false-container{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: scale;
+        padding: 2vh 3vw;
+    }
+    
+    #mark-true-false-buttons-container{
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        width: 100vw;
+    }
+}
+
+/* helper */
 .large-icon{
     width: auto;
     height: 40px;
