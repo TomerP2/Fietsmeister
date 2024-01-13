@@ -1,10 +1,14 @@
+#new-point-confirmation-menu.move-up{
+    transform: translateY(0); 
+}
+
 /* use if screen > phone screen */
 #new-point-confirmation-menu{
     border-radius: 25px 25px 0 0;
     position: fixed;
     bottom: 0;
     left: 0;
-    width: 100vw;
+    width: 94vw; /* 94 to compensate for the 3vw padding * 2 */
     background-color: var(--main);
     text-align: center;
     z-index: 1; /* Set a higher z-index to be infront of the map */
@@ -20,10 +24,6 @@
     transition: transform 0.2s ease; 
 }
 
-#new-point-confirmation-menu.move-up{
-    transform: translateY(0); 
-}
-
 #add-point-buttons-container {
     display: flex;
     flex-direction: row;
@@ -34,13 +34,13 @@
 }
 
 /* use if screen = phone screen */
-@media (max-width: 350px) {
+@media (max-width: 500px) {
     #new-point-confirmation-menu{
         border-radius: 25px 25px 0 0;
         position: fixed;
         bottom: 0;
         left: 0;
-        width: 100vw;
+        width: 94vw; /* 94 to compensate for the 3vw padding * 2 */
         background-color: var(--main);
         text-align: center;
         z-index: 1; /* Set a higher z-index to be infront of the map */
@@ -63,6 +63,6 @@
         align-items: center;
         width: 80vw;
         max-width: 240px;
-        padding: 2vh 3vw;
+        padding-top: 2vh;
     }
 }
