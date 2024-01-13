@@ -52,10 +52,17 @@
     transform: translateX(-50%);
     text-align: center;
 
-    color: var(--accent);
     text-decoration: none; 
     cursor: auto;
     white-space: nowrap;
+}
+
+.blue-text{
+    color: var(--accent)
+}
+
+.orange-text{
+    color: var(--blokkering)
 }
 
 .blue{

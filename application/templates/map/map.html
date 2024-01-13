@@ -1,108 +1,88 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-    <title>Fietsmeister</title>
+{% extends 'base.html' %}
 
-    <!-- Allow mixed content so that blokkages can be fetched from API -->
-    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
+{% block additional_header %}
+<!-- leaflet stuff -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+crossorigin=""/>
 
-    <!-- leaflet stuff -->
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
-    integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
-    crossorigin=""/>
+<!-- Make sure you put this AFTER Leaflet's CSS -->
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+crossorigin=""></script>
+{% endblock %}
 
-    <!-- Make sure you put this AFTER Leaflet's CSS -->
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
-    integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
-    crossorigin=""></script>
+{% block additional_styles %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/map.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/infotab.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/new_point.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/settings_menu.css') }}">
+{% endblock %}
 
-    <!-- favicon stuff -->
-    <link rel="apple-touch-icon" sizes="180x180" href="{{ url_for('static', filename='favicon/apple-touch-icon.png') }}">
-    <link rel="icon" type="image/png" sizes="32x32" href="{{ url_for('static', filename='favicon/favicon-32x32.png') }}">
-    <link rel="icon" type="image/png" sizes="16x16" href="{{ url_for('static', filename='favicon/favicon-16x16.png') }}">
-    <link rel="manifest" href="{{ url_for('static', filename='favicon/site.webmanifest') }}">
-    <link rel="mask-icon" href="{{ url_for('static', filename='favicon/safari-pinned-tab.svg') }}" color="#5bbad5">
-    <meta name="msapplication-TileColor" content="#da532c">
-    <meta name="theme-color" content="#ffffff">
+{% block content %}
+<!-- leaflet map container -->
+<div id="map"></div>
 
-    <!-- css links -->
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/basics.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/map.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/infotab.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/new_point.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/settings_menu.css') }}">
-</head>
-<body>
-    {% for message in get_flashed_messages() %}
-    <div class="flash">{{ message }}</div>
-    {% endfor %}
+<!-- settings icon -->
+<div id="settings-icon-container">
+    <img id="settings-icon" src="{{ url_for('static', filename='png/settings_icon.png') }}">
+</div>
 
-    <!-- leaflet map container -->
-    <div id="map"></div>
+<!-- settings menu -->
+<div id="settings-menu-container">
+    <p class="title-f">Settings</p>
+    <img id="close-settings-menu-button" src="{{ url_for('static', filename='png/close_tab.png') }}">
+    <img id="log-out-button" class="large-icon" src="{{ url_for('static', filename='png/log_out_button.png') }}">
+</div>
 
-    <!-- settings icon -->
-    <div id="settings-icon-container">
-        <img id="settings-icon" src="{{ url_for('static', filename='png/settings_icon.png') }}">
-    </div>
+<!-- 'çlick on map to add point' tip -->
+<div id="report-content-container" class="move-up">
+    <p class="title-f" id="report-text">Klik op de kaart om een blokkering toe te voegen</p>
+</div>
 
-    <!-- settings menu -->
-    <div id="settings-menu-container">
-        <p class="title-f">Settings</p>
-        <img id="close-settings-menu-button" src="{{ url_for('static', filename='png/close_tab.png') }}">
-        <img id="log-out-button" class="large-icon" src="{{ url_for('static', filename='png/log_out_button.png') }}">
-    </div>
-
-    <!-- 'çlick on map to add point' tip -->
-    <div id="report-content-container" class="move-up">
-        <p class="title-f" id="report-text">Klik op de kaart om een blokkering toe te voegen</p>
-    </div>
-
-    <!-- information-menu for when user clicks on point -->
-    <div id="info">
-        <div id="header-container">
-            <div id="header-container-left">
-                <h1 class="title-f">BLOKKERING</h1>
-                <p class="text-f" id="posted-by-text">2 dagen geleden gepost door tomr1234</p>
-            </div>
-            <img id="close-info-button" src="{{ url_for('static', filename='png/close_tab.png') }}">
+<!-- information-menu for when user clicks on point -->
+<div id="info">
+    <div id="header-container">
+        <div id="header-container-left">
+            <h1 class="title-f">BLOKKERING</h1>
+            <p class="text-f" id="posted-by-text">2 dagen geleden gepost door tomr1234</p>
         </div>
-        <hr class="light-divider">
-        <div id="marked-true-false-container" >
-            <div id="marked-true-container" class="marked-true-false-container-inside">
-                <img class="small-icon" src="{{ url_for('static', filename='png/marked_true_small.png') }}" scale="">
-                <p class="text-f" id="marked-true-text">23 Keer gemarkeerd als kloppend</p>
-            </div>
-            <div id="marked-false-container" class="marked-true-false-container-inside">
-                <img class="small-icon" src="{{ url_for('static', filename='png/marked_false_small.png') }}">
-                <p class="text-f" id="marked-false-text">2 Keer gemarkeerd als niet kloppend</p>
-            </div>
+        <img id="close-info-button" src="{{ url_for('static', filename='png/close_tab.png') }}">
+    </div>
+    <hr class="light-divider">
+    <div id="marked-true-false-container" >
+        <div id="marked-true-container" class="marked-true-false-container-inside">
+            <img class="small-icon" src="{{ url_for('static', filename='png/marked_true_small.png') }}" scale="">
+            <p class="text-f" id="marked-true-text">23 Keer gemarkeerd als kloppend</p>
         </div>
-        <hr class="light-divider">
-        <div id="mark-true-false-container">
-            <p class="text-f" id="already-marked-text">U heeft deze blokkering al gemarkeerd</p>
-            <div id="mark-true-false-buttons-container">
-                <img id="mark-true" class="large-icon" src="{{ url_for('static', filename='png/mark_true_large.png') }}">
-                <img id="mark-false" class="large-icon" src="{{ url_for('static', filename='png/mark_false_large.png') }}">
-            </div>
+        <div id="marked-false-container" class="marked-true-false-container-inside">
+            <img class="small-icon" src="{{ url_for('static', filename='png/marked_false_small.png') }}">
+            <p class="text-f" id="marked-false-text">2 Keer gemarkeerd als niet kloppend</p>
         </div>
     </div>
-
-    <!-- menu that shows up when user selects location for new point -->
-    <div id="new-point-confirmation-menu">
-        <p class="title-f">Nieuwe blokkering toevoegen?</p>
-        <div id="add-point-buttons-container">
-            <img id="add-point-button" class="large-icon" src="{{ url_for('static', filename='png/add_blokkage_button.png') }}">
-            <img id="dont-add-point-button" class="large-icon" src="{{ url_for('static', filename='png/dont_add_blokkage_button.png') }}">
+    <hr class="light-divider">
+    <div id="mark-true-false-container">
+        <p class="text-f" id="already-marked-text">U heeft deze blokkering al gemarkeerd</p>
+        <div id="mark-true-false-buttons-container">
+            <img id="mark-true" class="large-icon" src="{{ url_for('static', filename='png/mark_true_large.png') }}">
+            <img id="mark-false" class="large-icon" src="{{ url_for('static', filename='png/mark_false_large.png') }}">
         </div>
     </div>
+</div>
 
-    <!-- js links -->
-    <script src="{{ url_for('static', filename='js/helper_functions.js') }}"></script>
-    <script src="{{ url_for('static', filename='js/info_menu.js') }}"></script>
-    <script src="{{ url_for('static', filename='js/new_point.js') }}"></script>
-    <script src="{{ url_for('static', filename='js/map.js') }}"></script>
-    <script src="{{ url_for('static', filename='js/settings_menu.js') }}"></script>
-</body>
-</html>
+<!-- menu that shows up when user selects location for new point -->
+<div id="new-point-confirmation-menu">
+    <p class="title-f">Nieuwe blokkering toevoegen?</p>
+    <div id="add-point-buttons-container">
+        <img id="add-point-button" class="large-icon" src="{{ url_for('static', filename='png/add_blokkage_button.png') }}">
+        <img id="dont-add-point-button" class="large-icon" src="{{ url_for('static', filename='png/dont_add_blokkage_button.png') }}">
+    </div>
+</div>
+
+<!-- js links -->
+<script src="{{ url_for('static', filename='js/helper_functions.js') }}"></script>
+<script src="{{ url_for('static', filename='js/info_menu.js') }}"></script>
+<script src="{{ url_for('static', filename='js/new_point.js') }}"></script>
+<script src="{{ url_for('static', filename='js/map.js') }}"></script>
+<script src="{{ url_for('static', filename='js/settings_menu.js') }}"></script>
+{% endblock %}
