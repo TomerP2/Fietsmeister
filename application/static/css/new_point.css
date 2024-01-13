@@ -30,7 +30,7 @@
     justify-content: space-between;
     align-items: center;
     padding-top: 2vh;
-    gap: 3vw
+    gap: 2vw
 }
 
 /* use if screen = phone screen */
@@ -41,7 +41,7 @@
     }
 
     #add-point-buttons-container {
-        width: 80vw;
+        width: 70vw;
         gap: 0;
     }
 }
