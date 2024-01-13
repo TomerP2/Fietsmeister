@@ -100,7 +100,7 @@
 }
 
 /* use if screen = phone screen */
-@media (max-width: 350px) {
+@media (max-width: 450px) {
     #mark-true-false-container{
         display: flex;
         align-items: center;
