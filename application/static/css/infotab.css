@@ -80,10 +80,11 @@
 }
 
 /* Bottom section of info tab */
+
 #mark-true-false-container{
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: flex-start;
     height: scale;
     padding: 2vh 3vw;
 }
@@ -93,9 +94,21 @@
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    width: 80vw;
+    width: 300px;
 }
 
+/* use if screen = phone screen */
+@media (max-width: 450px) {
+    #mark-true-false-container{
+        justify-content: center;
+    }
+    
+    #mark-true-false-buttons-container{
+        width: 100vw;
+    }
+}
+
+/* helper */
 .large-icon{
     width: auto;
     height: 40px;
