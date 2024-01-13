@@ -34,7 +34,7 @@
 }
 
 /* use if screen = phone screen */
-@media (max-width: 500px) {
+@media (max-width: 450px) {
     #new-point-confirmation-menu{
         align-items: center;
         padding-top: 2vh;
