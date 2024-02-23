@@ -67,6 +67,25 @@ async function main(){
   });
 }
 
+// GPX-upload stuff
+document.getElementById('uploadButton').addEventListener('click', function() {
+  document.getElementById('fileInput').click();
+});
+
+document.getElementById('fileInput').addEventListener('change', function(e) {
+  var file = e.target.files[0];
+  var reader = new FileReader();
+
+  reader.onload = function(e) {
+    var gpxContent = e.target.result;
+    new L.GPX(gpxContent, {async: true}).on('loaded', function(e) {
+      map.fitBounds(e.target.getBounds());
+    }).addTo(map);
+  };
+
+  reader.readAsText(file);
+});
+
 async function addOrUpdateBlokkagesLayer() {
   try {
     // fetch data from flask

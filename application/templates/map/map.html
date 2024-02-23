@@ -10,6 +10,7 @@ crossorigin=""/>
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
 integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
 crossorigin=""></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet-gpx/1.7.0/gpx.min.js"></script>
 {% endblock %}
 
 {% block additional_styles %}
@@ -32,6 +33,8 @@ crossorigin=""></script>
 <div id="settings-menu-container">
     <p class="title-f">Settings</p>
     <img id="close-settings-menu-button" src="{{ url_for('static', filename='png/close_tab.png') }}">
+    <input type="file" id="fileInput" accept=".gpx" style="display: none;">
+    <button id="uploadButton">Upload GPX File</button>
     <img id="log-out-button" class="large-icon" src="{{ url_for('static', filename='png/log_out_button.png') }}">
 </div>
 
