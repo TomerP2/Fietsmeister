@@ -78,7 +78,14 @@ document.getElementById('fileInput').addEventListener('change', function(e) {
 
   reader.onload = function(e) {
     var gpxContent = e.target.result;
-    new L.GPX(gpxContent, {async: true}).on('loaded', function(e) {
+    new L.GPX(gpxContent, {
+      async: true,
+      marker_options: {
+        startIconUrl: 'https://maps.google.com/mapfiles/kml/paddle/grn-blank.png',
+        endIconUrl: 'https://maps.google.com/mapfiles/kml/paddle/red-blank.png',
+        shadowUrl: 'http://maps.google.com/mapfiles/ms/micons/msmarker.shadow.png'
+      }
+    }).on('loaded', function(e) {
       map.fitBounds(e.target.getBounds());
     }).addTo(map);
   };
@@ -86,6 +93,7 @@ document.getElementById('fileInput').addEventListener('change', function(e) {
   reader.readAsText(file);
 });
 
+// Blokkage layer stuff
 async function addOrUpdateBlokkagesLayer() {
   try {
     // fetch data from flask
