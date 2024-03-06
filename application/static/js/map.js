@@ -20,13 +20,13 @@ async function main(){
   map.setMinZoom(minZoom); 
   
   // Create basemap and add to map
-  L.tileLayer('https://service.pdok.nl/brt/achtergrondkaart/wmts/v2_0/pastel/EPSG:3857/{z}/{x}/{y}.png', {
+ L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
     minZoom: minZoom - 1,
     maxZoom: maxZoom + 1,
     bounds: bounds,
-    attribution: 'Kaartgegevens &copy; <a href="https://www.kadaster.nl">Kadaster</a>'
+    attribution: '© OpenStreetMap'
   }).addTo(map);
-  
+
   // Fetch user info from flask API
   userInfo = await getCurrentUserInfo();
 
