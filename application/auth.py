@@ -39,7 +39,7 @@ def register():
 
         if error is None:
             try:
-                email = validate_email(email, check_deliverablity=False)
+                email = validate_email(email_str)
                 cursor.execute(
                     "INSERT INTO users (username, password, active) VALUES (%s, %s, TRUE)",
                     (email.normalized,  generate_password_hash(password))
