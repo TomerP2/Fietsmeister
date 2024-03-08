@@ -25,8 +25,15 @@ async function displayInfoMenu(point_id, latlng) {
     }
     const featureInfo = await response.json();
     
+    // Refresh user info. This is done to check if user marked this point just now and to check if this is user's own point.
+    userInfo = await getCurrentUserInfo();
+
+    // Create posted-by-text
+    let time_ago_text = `${featureInfo.days_ago} ${featureInfo.days_ago === 1 ? 'dag' : 'dagen'}`
+    let posted_by_text = `${featureInfo.username == userInfo.username ? 'u' : featureInfo.username}.`
+
     // Set text inside info-menu to info fetched from API.
-    document.getElementById("posted-by-text").textContent = `${featureInfo.days_ago} ${featureInfo.days_ago === 1 ? 'dag' : 'dagen'}` + ` geleden gepost door ${featureInfo.username}`;
+    document.getElementById("posted-by-text").textContent = time_ago_text + ' geleden gepost door ' +  posted_by_text;
     document.getElementById("marked-true-text").textContent = `${featureInfo.marked_true} keer gemarkeerd als kloppend`;
     document.getElementById("marked-false-text").textContent = `${featureInfo.marked_false} keer gemarkeerd als niet kloppend`;
     
@@ -34,8 +41,6 @@ async function displayInfoMenu(point_id, latlng) {
     const alreadyMarkedTextElement = document.getElementById('already-marked-text');
     const buttonsContainerElement = document.getElementById('mark-true-false-buttons-container');
 
-    // Refresh user info. This is done to check if user marked this point just now.
-    userInfo = await getCurrentUserInfo();
 
     // Check if ID of current point is already in user's marked point. Meaning user already marked point.
     if (userInfo.marked_points.includes(parseInt(point_id))) {
