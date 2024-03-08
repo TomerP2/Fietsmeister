@@ -35,6 +35,7 @@
     align-items: flex-start;
     justify-content: center;
     gap: 10px;
+    text-align: left;
 }
 
 #header-container-left h1{
