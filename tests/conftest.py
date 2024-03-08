@@ -21,7 +21,6 @@ def app():
         db = get_db()
         cursor = get_cursor()
         cursor.execute(_data_sql)
-        # cursor.execute("INSERT INTO users (username, password) VALUES ('test', 'password')")
         db.commit()
 
     yield app
@@ -49,7 +48,7 @@ class AuthActions(object):
     def __init__(self, client):
         self._client = client
 
-    def login(self, username='test', password='test'):
+    def login(self, username='test@email.com', password='test'):
         return self._client.post(
             '/auth/login',
             data={'username': username, 'password': password}

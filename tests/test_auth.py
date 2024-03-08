@@ -6,26 +6,26 @@ from application.db import get_cursor
 def test_register(client, app):
     assert client.get('/auth/register').status_code == 200
     response = client.post(
-        '/auth/register', data={'username': 'a', 'password': 'a'}
+        '/auth/register', data={'email': 'a@email.com', 'password': 'a'}
     )
     assert response.headers["Location"] == "/auth/login"
 
     with app.app_context():
         cursor = get_cursor()
-        cursor.execute("SELECT * FROM users WHERE username = 'a'")
+        cursor.execute("SELECT * FROM users WHERE username = 'a@email.com'")
         row = cursor.fetchone()
         assert row is not None
 
 
 @pytest.mark.parametrize(('username', 'password', 'message'), (
-    ('', '', b'Username is required.'),
-    ('a', '', b'Password is required.'),
-    ('test', 'test', b'already registered'),
+    ('', '', b'Email is required.'),
+    ('a@email.com', '', b'Password is required.'),
+    ('test@email.com', 'test', b'already registered'),
 ))
 def test_register_validate_input(client, username, password, message):
     response = client.post(
         '/auth/register',
-        data={'username': username, 'password': password}
+        data={'email': username, 'password': password}
     )
     print (response.data)
     assert message in response.data
@@ -39,12 +39,12 @@ def test_login(client, auth):
     with client:
         client.get('/')
         assert session['user_id'] == 1
-        assert g.user['username'] == 'test'
+        assert g.user['username'] == 'test@email.com'
 
 
 @pytest.mark.parametrize(('username', 'password', 'message'), (
     ('a', 'test', b'Incorrect username.'),
-    ('test', 'a', b'Incorrect password.'),
+    ('test@email.com', 'a', b'Incorrect password.'),
 ))
 def test_login_validate_input(auth, username, password, message):
     response = auth.login(username, password)

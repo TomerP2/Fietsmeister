@@ -9,6 +9,7 @@ from application.db import get_cursor, get_db, get_user_by_id, get_user_by_usern
 
 from psycopg2.errors import UniqueViolation
 
+from email_validator import validate_email, EmailNotValidError
 
 bp = Blueprint('auth', __name__, url_prefix='/auth')
 
@@ -24,29 +25,34 @@ def load_logged_in_user():
 @bp.route('/register', methods=('GET', 'POST'))
 def register():
     if request.method == 'POST':
-        username = request.form['username']
+        email_str = request.form['email']
         password = request.form['password']
         cursor = get_cursor()
         db = get_db()
         error = None
 
-        if not username:
-            error = 'Username is required.'
+        if not email_str:
+            error = 'Email is required.'
+
         elif not password:
             error = 'Password is required.'
 
         if error is None:
             try:
+                email = validate_email(email_str)
                 cursor.execute(
                     "INSERT INTO users (username, password, active) VALUES (%s, %s, TRUE)",
-                    (username,  generate_password_hash(password))
+                    (email.normalized,  generate_password_hash(password))
                 )
                 db.commit()
                 return redirect(url_for("auth.login"))
+            
             except UniqueViolation:
                 error = 'already registered'
-                
 
+            except EmailNotValidError as e:
+                error = str(e)
+                
         flash(error)
 
     return render_template('auth/register.html')
