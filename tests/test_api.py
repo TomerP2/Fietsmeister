@@ -25,7 +25,7 @@ def test_get_blokkage_info(client):
     response = client.get('/api/blokkageinfo/1')
     data = json.loads(response.data)
     assert data["id"] == 1
-    assert data["username"] == "test"
+    assert data["username"] == "test@email.com"
     assert data["days_ago"] == 0
     assert data["marked_true"] == 2
     assert data["marked_false"] == 0
@@ -35,7 +35,7 @@ def test_get_user_info(client, auth):
     auth.login()
     response = client.get('/api/currentuserinfo/')
     data = json.loads(response.data)
-    assert data["id"] == 1 and data["username"] == "test" and data["marked_points"] == [1]
+    assert data["id"] == 1 and data["username"] == "test@email.com" and data["marked_points"] == [1]
 
 
 def test_get_user_info_validate(client, auth):
