@@ -12,8 +12,13 @@ Running locally:
 6. Run the command 'flask run'
 
 # Screenshots
+1:
 ![image](https://github.com/user-attachments/assets/0d919c53-65fd-45d8-be63-2d5bd3922d36)
+2:
 ![image](https://github.com/user-attachments/assets/f7dbff2d-08b9-441a-891a-d4047c2b6a1c)
+3:
 ![image](https://github.com/user-attachments/assets/bb12662d-a644-444a-8129-17d52184de94)
+4:
 ![image](https://github.com/user-attachments/assets/e8c638bf-c167-4c86-8736-6684780eca33)
+5:
 ![image](https://github.com/user-attachments/assets/397de4a9-890f-41a9-88d5-12ed757a4bf4)
