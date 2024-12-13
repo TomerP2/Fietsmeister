@@ -9,7 +9,7 @@ Running locally:
 3. In the .env file, make sure the name, host, user and password variables are set up correctly.
 4. Install the python modules listed in requirments.txt
 5. In the main folder, run the command 'flask init-db' in the command line
-6. Run the command 'flask run'
+6. Run the file 'app.py'. Dont run the command 'flask run', this will make the app use http instead of https.
 
 # Screenshots
 ## 1:
