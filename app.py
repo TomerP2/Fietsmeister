@@ -12,5 +12,6 @@ if __name__ == "__main__":
     else:
         # Development
         print('Running app in development mode.')
-        ssl_context = ('ssl_context/cert.pem', 'ssl_context\key.pem')
-        app.run(ssl_context=ssl_context)
+        ssl_context = ('ssl_context/cert.pem', 'ssl_context/key.pem')
+        print(f"SSL context: {ssl_context}")
+        app.run(ssl_context=ssl_context, port=5001)
